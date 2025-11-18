@@ -1,0 +1,365 @@
+[08:14:48] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=1
+[08:14:49] ? Crawl xong trang 1 (20 s?n ph?m)
+[08:14:51] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=2
+[08:14:51] ? Crawl xong trang 2 (20 s?n ph?m)
+[08:14:53] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=3
+[08:14:53] ? Crawl xong trang 3 (20 s?n ph?m)
+[08:14:55] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=4
+[08:14:55] ? Crawl xong trang 4 (20 s?n ph?m)
+[08:14:57] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=5
+[08:14:57] ? Crawl xong trang 5 (20 s?n ph?m)
+[08:18:33] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=1
+[08:18:34] ? Crawl xong trang 1 (20 s?n ph?m)
+[08:18:36] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=2
+[08:18:36] ? Crawl xong trang 2 (20 s?n ph?m)
+[08:18:38] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=3
+[08:18:38] ? Crawl xong trang 3 (20 s?n ph?m)
+[08:18:40] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=4
+[08:18:41] ? Crawl xong trang 4 (20 s?n ph?m)
+[08:18:43] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=5
+[08:18:43] ? Crawl xong trang 5 (20 s?n ph?m)
+[08:21:06] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=1
+[08:21:07] ? Crawl xong trang 1 (20 s?n ph?m)
+[08:21:09] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=2
+[08:21:09] ? Crawl xong trang 2 (20 s?n ph?m)
+[08:21:11] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=3
+[08:21:11] ? Crawl xong trang 3 (20 s?n ph?m)
+[08:21:13] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=4
+[08:21:13] ? Crawl xong trang 4 (20 s?n ph?m)
+[08:21:15] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=5
+[08:21:16] ? Crawl xong trang 5 (20 s?n ph?m)
+[08:23:57] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=1
+[08:23:57] ? Crawl xong trang 1 (20 s?n ph?m)
+[08:23:59] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=2
+[08:24:00] ? Crawl xong trang 2 (20 s?n ph?m)
+[08:24:02] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=3
+[08:24:02] ? Crawl xong trang 3 (20 s?n ph?m)
+[08:24:04] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=4
+[08:24:04] ? Crawl xong trang 4 (20 s?n ph?m)
+[08:24:06] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=5
+[08:24:06] ? Crawl xong trang 5 (20 s?n ph?m)
+[08:29:35] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=1
+[08:29:36] ? Crawl xong trang 1 (20 s?n ph?m)
+[08:29:38] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=2
+[08:29:38] ? Crawl xong trang 2 (20 s?n ph?m)
+[08:29:40] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=3
+[08:29:40] ? Crawl xong trang 3 (20 s?n ph?m)
+[08:29:42] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=4
+[08:29:42] ? Crawl xong trang 4 (20 s?n ph?m)
+[08:29:44] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=5
+[08:29:45] ? Crawl xong trang 5 (20 s?n ph?m)
+[08:29:55] �? import 100 d?ng...
+[08:29:55] ? Import ho�n t?t, t?ng: 100 b?n ghi.
+[08:36:59] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=1
+[08:37:00] ? Crawl xong trang 1 (20 s?n ph?m)
+[08:37:02] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=2
+[08:37:02] ? Crawl xong trang 2 (20 s?n ph?m)
+[08:37:04] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=3
+[08:37:04] ? Crawl xong trang 3 (20 s?n ph?m)
+[08:37:06] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=4
+[08:37:06] ? Crawl xong trang 4 (20 s?n ph?m)
+[08:37:08] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=5
+[08:37:08] ? Crawl xong trang 5 (20 s?n ph?m)
+[08:39:47] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=1
+[08:39:48] ? Crawl xong trang 1 (20 s?n ph?m)
+[08:39:50] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=2
+[08:39:50] ? Crawl xong trang 2 (20 s?n ph?m)
+[08:39:52] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=3
+[08:39:52] ? Crawl xong trang 3 (20 s?n ph?m)
+[08:39:54] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=4
+[08:39:54] ? Crawl xong trang 4 (20 s?n ph?m)
+[08:39:56] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=5
+[08:39:57] ? Crawl xong trang 5 (20 s?n ph?m)
+[08:41:19] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=1
+[08:41:20] ? Crawl xong trang 1 (20 s?n ph?m)
+[08:41:22] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=2
+[08:41:22] ? Crawl xong trang 2 (20 s?n ph?m)
+[08:41:24] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=3
+[08:41:24] ? Crawl xong trang 3 (20 s?n ph?m)
+[08:41:26] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=4
+[08:41:27] ? Crawl xong trang 4 (20 s?n ph?m)
+[08:41:29] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=5
+[08:41:29] ? Crawl xong trang 5 (20 s?n ph?m)
+[08:46:47] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=1
+[08:46:47] ? Crawl xong trang 1 (20 s?n ph?m)
+[08:46:49] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=2
+[08:46:49] ? Crawl xong trang 2 (20 s?n ph?m)
+[08:46:51] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=3
+[08:46:52] ? Crawl xong trang 3 (20 s?n ph?m)
+[08:46:54] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=4
+[08:46:54] ? Crawl xong trang 4 (20 s?n ph?m)
+[08:46:56] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=5
+[08:46:56] ? Crawl xong trang 5 (20 s?n ph?m)
+[08:53:37] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=1
+[08:53:38] ? Crawl xong trang 1 (20 s?n ph?m)
+[08:53:40] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=2
+[08:53:40] ? Crawl xong trang 2 (20 s?n ph?m)
+[08:53:42] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=3
+[08:53:42] ? Crawl xong trang 3 (20 s?n ph?m)
+[08:53:44] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=4
+[08:53:45] ? Crawl xong trang 4 (20 s?n ph?m)
+[08:53:47] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=5
+[08:53:47] ? Crawl xong trang 5 (20 s?n ph?m)
+[08:53:57] �? import 100 d?ng...
+[08:53:57] ? Import ho�n t?t, t?ng: 100 b?n ghi.
+[09:21:21] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=1
+[09:21:21] ? Crawl xong trang 1 (20 s?n ph?m)
+[09:21:23] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=2
+[09:21:23] ? Crawl xong trang 2 (20 s?n ph?m)
+[09:21:25] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=3
+[09:21:26] ? Crawl xong trang 3 (20 s?n ph?m)
+[09:21:28] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=4
+[09:21:28] ? Crawl xong trang 4 (20 s?n ph?m)
+[09:21:30] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=5
+[09:21:30] ? Crawl xong trang 5 (20 s?n ph?m)
+[09:21:47] �? import 100 d?ng...
+[09:21:47] ? Import ho�n t?t, t?ng: 100 b?n ghi.
+[09:26:15] ? M? trang: https://cellphones.com.vn/mobile.html
+[09:26:24] ? Kh�ng t?m th?y n�t 'Xem th�m' ? l?n 1, d?ng l?i.
+[09:26:24] ? Crawl ho�n t?t: 20 s?n ph?m.
+[09:26:43] ? Import ho�n t?t, t?ng: 20 b?n ghi.
+[09:31:01] ? M? trang: https://cellphones.com.vn/mobile.html
+[09:34:21] ? Import ho�n t?t, t?ng: 20 b?n ghi.
+[09:38:51] === BẮT ĐẦU PIPELINE ===
+[09:38:53] 🔗 Mở trang: https://cellphones.com.vn/mobile.html
+[09:39:12] ⚠ Không tìm thấy nút 'Xem thêm' ở lần 1, dừng lại.
+[09:39:12] ✅ Crawl hoàn tất: 20 sản phẩm.
+[09:39:12] ✅ Crawl hoàn tất, file: 12_11_25_products.csv
+[09:39:13] ✅ Bảng staging đã sẵn sàng.
+[09:39:14] ✅ Import hoàn tất, tổng: 20 bản ghi.
+[09:39:14] ✅ Dữ liệu đã được load vào staging.
+[09:39:14] === KẾT THÚC PIPELINE ===
+[09:40:10] === BẮT ĐẦU PIPELINE ===
+[09:40:12] 🔗 Mở trang: https://cellphones.com.vn/mobile.html
+[09:40:23] ⚠ Không tìm thấy nút 'Xem thêm' ở lần 1, dừng lại.
+[09:40:24] ✅ Crawl hoàn tất: 20 sản phẩm.
+[09:40:24] ✅ Crawl hoàn tất, file: 12_11_25_products.csv
+[09:40:25] ✅ Bảng staging đã sẵn sàng.
+[09:40:26] ✅ Import hoàn tất, tổng: 20 bản ghi.
+[09:40:26] ✅ Dữ liệu đã được load vào staging.
+[09:40:26] === KẾT THÚC PIPELINE ===
+[09:46:25] === BẮT ĐẦU PIPELINE ===
+[09:46:26] 🔗 Mở trang: https://cellphones.com.vn/mobile.html
+[09:46:38] ⚠ Không tìm thấy nút 'Xem thêm' ở lần 1, dừng lại.
+[09:46:38] ✅ Crawl hoàn tất: 20 sản phẩm.
+[09:46:38] ✅ Crawl hoàn tất, file: 12_11_25_products.csv
+[09:46:39] ✅ Bảng staging đã sẵn sàng.
+[09:46:41] ✅ Import hoàn tất, tổng: 20 bản ghi.
+[09:46:41] ✅ Dữ liệu đã được load vào staging.
+[09:46:41] === KẾT THÚC PIPELINE ===
+[09:53:30] === BẮT ĐẦU PIPELINE ===
+[09:53:35] ❌ Lỗi: Could not start a new session. Response code 500. Message: session not created: This version of ChromeDriver only supports Chrome version 116
+Current browser version is 142.0.7444.134 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe 
+Host info: host: 'NPT-NLUER', ip: '10.0.155.173'
+Build info: version: '4.23.0', revision: '4df0a231af'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.12'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [null, newSession {capabilities=[Capabilities {browserName: chrome, goog:chromeOptions: {args: [--headless=new, --no-sandbox, --disable-dev-shm-usage], extensions: []}}]}]
+[09:58:38] === BẮT ĐẦU PIPELINE ===
+[09:58:40] 🔗 Mở trang: https://cellphones.com.vn/mobile.html
+[09:59:07] 👉 Click 'Xem thêm' lần 1
+[09:59:07] 👉 Click 'Xem thêm' lần 2
+[09:59:07] 👉 Click 'Xem thêm' lần 3
+[09:59:07] 👉 Click 'Xem thêm' lần 4
+[09:59:07] 👉 Click 'Xem thêm' lần 5
+[09:59:08] ✅ Crawl hoàn tất: 80 sản phẩm.
+[09:59:08] ✅ Crawl hoàn tất, file: 12_11_25_products.csv
+[09:59:09] ✅ Bảng staging đã sẵn sàng.
+[09:59:12] ✅ Import hoàn tất, tổng: 80 bản ghi.
+[09:59:12] ✅ Dữ liệu đã được load vào staging.
+[09:59:12] === KẾT THÚC PIPELINE ===
+[09:59:36] === BẮT ĐẦU PIPELINE ===
+[09:59:38] 🔗 Mở trang: https://cellphones.com.vn/mobile.html
+[09:59:46] 👉 Click 'Xem thêm' lần 1
+[09:59:46] 👉 Click 'Xem thêm' lần 2
+[09:59:46] 👉 Click 'Xem thêm' lần 3
+[09:59:46] 👉 Click 'Xem thêm' lần 4
+[09:59:46] 👉 Click 'Xem thêm' lần 5
+[09:59:47] ✅ Crawl hoàn tất: 100 sản phẩm.
+[09:59:47] ✅ Crawl hoàn tất, file: 12_11_25_products.csv
+[09:59:48] ✅ Bảng staging đã sẵn sàng.
+[09:59:54] Đã import 100 dòng...
+[09:59:54] ✅ Import hoàn tất, tổng: 100 bản ghi.
+[09:59:54] ✅ Dữ liệu đã được load vào staging.
+[09:59:54] === KẾT THÚC PIPELINE ===
+[10:13:23] === BẮT ĐẦU PIPELINE ===
+[10:13:25] 🔗 Mở trang: https://cellphones.com.vn/mobile.html
+[10:13:40] 👉 Click 'Xem thêm' lần 1
+[10:13:40] 👉 Click 'Xem thêm' lần 2
+[10:13:41] 👉 Click 'Xem thêm' lần 3
+[10:13:42] 👉 Click 'Xem thêm' lần 4
+[10:13:42] 👉 Click 'Xem thêm' lần 5
+[10:13:44] ❌ Lỗi: Session ID is null. Using WebDriver after calling quit()?
+Build info: version: '4.23.0', revision: '4df0a231af'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.12'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [null, findElements {using=css selector, value=div.product-item}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.134, chrome: {chromedriverVersion: 142.0.7444.162 (c076baf266c..., userDataDir: C:\Users\Admin\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:53143}, goog:processID: 3608, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:53143/devtoo..., se:cdpVersion: 142.0.7444.134, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+[10:15:16] === BẮT ĐẦU PIPELINE ===
+[10:15:18] 🔗 Mở trang: https://cellphones.com.vn/mobile.html
+[10:15:27] 👉 Click 'Xem thêm' lần 1
+[10:15:29] 👉 Click 'Xem thêm' lần 2
+[10:15:31] 👉 Click 'Xem thêm' lần 3
+[10:15:33] 👉 Click 'Xem thêm' lần 4
+[10:15:35] 👉 Click 'Xem thêm' lần 5
+[10:15:37] 🔍 Tổng sản phẩm tìm thấy: 120
+[10:18:41] ✅ Crawl hoàn tất: 120 sản phẩm.
+[10:18:41] ✅ Crawl hoàn tất, file: 12_11_25_products.csv
+[10:18:41] ✅ Bảng staging đã sẵn sàng.
+[10:18:46] Đã import 100 dòng...
+[10:18:47] ✅ Import hoàn tất, tổng: 120 bản ghi.
+[10:18:47] ✅ Dữ liệu đã được load vào staging.
+[10:18:47] === KẾT THÚC PIPELINE ===
+[10:24:27] === BẮT ĐẦU PIPELINE ===
+[10:24:29] 🔗 Mở trang: https://cellphones.com.vn/mobile.html
+[10:24:42] 👉 Click 'Xem thêm' lần 1
+[10:24:45] 👉 Click 'Xem thêm' lần 2
+[10:24:48] 👉 Click 'Xem thêm' lần 3
+[10:24:51] 👉 Click 'Xem thêm' lần 4
+[10:24:54] 👉 Click 'Xem thêm' lần 5
+[10:24:58] 🔍 Tổng sản phẩm tìm thấy: 120
+[10:25:18] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:25:29] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:25:39] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:25:50] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:26:00] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:26:11] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:26:21] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:26:32] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:26:42] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:26:53] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:27:03] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:27:14] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:27:24] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:27:35] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:27:45] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:27:56] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:28:06] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:28:17] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:28:27] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:28:38] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:28:48] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:28:58] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:29:09] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:29:19] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:29:30] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:29:40] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:29:51] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:30:01] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:30:12] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:30:22] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:30:33] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:30:43] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:30:54] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:31:04] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:31:15] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:31:25] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:31:36] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:31:46] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:31:57] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:32:07] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:32:17] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:32:28] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:32:38] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:32:49] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:32:59] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:33:10] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:33:20] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:33:31] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:33:41] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:33:52] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:34:02] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:34:12] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:34:23] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:34:33] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:34:44] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:34:54] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:35:05] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:35:15] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:35:26] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:35:36] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:35:47] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:35:57] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:36:07] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:36:18] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:36:28] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:36:39] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:36:49] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:36:59] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:37:09] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:37:20] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:37:31] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:37:41] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:39:51] === BẮT ĐẦU PIPELINE ===
+[10:39:54] 🔗 Mở trang: https://cellphones.com.vn/mobile.html
+[10:40:01] 👉 Click 'Xem thêm' lần 1
+[10:40:04] 🔍 Tổng sản phẩm tìm thấy: 40
+[10:40:45] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:40:56] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:41:06] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:41:17] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:41:27] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:41:38] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:41:48] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:41:59] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:42:09] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:42:20] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:42:30] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:42:41] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:42:51] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:43:02] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:43:12] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:43:23] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:43:33] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:43:44] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:43:54] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:44:05] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:44:15] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:44:25] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:44:36] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:44:46] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:44:57] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:45:07] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:45:18] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:45:28] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:45:39] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:45:49] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:46:00] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:46:10] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:46:21] ⚠ Sản phẩm chưa load xong, bỏ qua: 
+[10:46:21] ✅ Crawl hoàn tất: 40 sản phẩm.
+[10:46:21] ✅ Crawl hoàn tất, file: 12_11_25_products.csv
+[10:46:22] ✅ Bảng staging đã sẵn sàng.
+[10:46:23] ✅ Import hoàn tất, tổng: 7 bản ghi.
+[10:46:23] ✅ Dữ liệu đã được load vào staging.
+[10:46:23] === KẾT THÚC PIPELINE ===
+[10:47:05] === BẮT ĐẦU PIPELINE ===
+[10:47:06] 🔗 Mở trang: https://cellphones.com.vn/mobile.html
+[10:47:19] === BẮT ĐẦU PIPELINE ===
+[10:47:21] 🔗 Mở trang: https://cellphones.com.vn/mobile.html
+[10:47:30] 👉 Click 'Xem thêm' lần 1
+[10:47:33] 👉 Click 'Xem thêm' lần 2
+[10:47:40] 🔍 Tổng sản phẩm tìm thấy: 60
+[10:49:27] ✅ Crawl hoàn tất: 60 sản phẩm.
+[10:49:27] ✅ Crawl hoàn tất, file: 12_11_25_products.csv
+[10:49:28] ✅ Bảng staging đã sẵn sàng.
+[10:49:31] ✅ Import hoàn tất, tổng: 60 bản ghi.
+[10:49:31] ✅ Dữ liệu đã được load vào staging.
+[10:49:31] === KẾT THÚC PIPELINE ===
+[10:52:22] === BẮT ĐẦU PIPELINE ===
+[10:52:22] === Đang crawl trang: https://cellphones.com.vn/mobile.html?p=1
+[10:52:23] ✅ Crawl xong trang 1 (20 sản phẩm)
+[10:52:25] === Đang crawl trang: https://cellphones.com.vn/mobile.html?p=2
+[10:52:25] ✅ Crawl xong trang 2 (20 sản phẩm)
+[10:52:27] === Đang crawl trang: https://cellphones.com.vn/mobile.html?p=3
+[10:52:28] ✅ Crawl xong trang 3 (20 sản phẩm)
+[10:52:30] === Đang crawl trang: https://cellphones.com.vn/mobile.html?p=4
+[10:52:30] ✅ Crawl xong trang 4 (20 sản phẩm)
+[10:52:32] === Đang crawl trang: https://cellphones.com.vn/mobile.html?p=5
+[10:52:32] ✅ Crawl xong trang 5 (20 sản phẩm)
+[10:52:34] ✅ Crawl hoàn tất, file: 12_11_25_products.csv
+[10:52:34] ✅ Bảng staging đã sẵn sàng.
+[10:52:39] Đã import 100 dòng...
+[10:52:39] ✅ Import hoàn tất, tổng: 100 bản ghi.
+[10:52:39] ✅ Dữ liệu đã được load vào staging.
+[10:52:39] === KẾT THÚC PIPELINE ===

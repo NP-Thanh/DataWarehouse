@@ -1,0 +1,51 @@
+[16:13:17] === BẮT ĐẦU PIPELINE ===
+[16:13:17] 🔎 Đang crawl trang: https://cellphones.com.vn/mobile.html?p=1
+[16:13:18] ✅ Crawl xong trang 1 (20 sản phẩm)
+[16:13:20] 🔎 Đang crawl trang: https://cellphones.com.vn/mobile.html?p=2
+[16:13:20] ✅ Crawl xong trang 2 (20 sản phẩm)
+[16:13:22] 🔎 Đang crawl trang: https://cellphones.com.vn/mobile.html?p=3
+[16:13:22] ✅ Crawl xong trang 3 (20 sản phẩm)
+[16:13:24] 🔎 Đang crawl trang: https://cellphones.com.vn/mobile.html?p=4
+[16:13:24] ✅ Crawl xong trang 4 (20 sản phẩm)
+[16:13:26] 🔎 Đang crawl trang: https://cellphones.com.vn/mobile.html?p=5
+[16:13:26] ✅ Crawl xong trang 5 (20 sản phẩm)
+[16:13:28] ✅ Crawl hoàn tất, file: 11_11_25_products.csv
+[16:13:29] ✅ Bảng staging đã sẵn sàng.
+[16:13:38] Đã import 100 dòng...
+[16:13:38] ✅ Import hoàn tất, tổng: 100 bản ghi.
+[16:13:38] ✅ Dữ liệu đã được load vào staging.
+[16:13:38] === KẾT THÚC PIPELINE ===
+[16:21:51] === BẮT ĐẦU PIPELINE ===
+[16:21:51] 🔎 Đang crawl trang: https://cellphones.com.vn/mobile.html?p=1
+[16:21:52] ✅ Crawl xong trang 1 (20 sản phẩm)
+[16:21:54] 🔎 Đang crawl trang: https://cellphones.com.vn/mobile.html?p=2
+[16:21:54] ✅ Crawl xong trang 2 (20 sản phẩm)
+[16:21:56] 🔎 Đang crawl trang: https://cellphones.com.vn/mobile.html?p=3
+[16:21:56] ✅ Crawl xong trang 3 (20 sản phẩm)
+[16:21:58] 🔎 Đang crawl trang: https://cellphones.com.vn/mobile.html?p=4
+[16:21:59] ✅ Crawl xong trang 4 (20 sản phẩm)
+[16:22:01] 🔎 Đang crawl trang: https://cellphones.com.vn/mobile.html?p=5
+[16:22:01] ✅ Crawl xong trang 5 (20 sản phẩm)
+[16:22:03] ✅ Crawl hoàn tất, file: 11_11_25_products.csv
+[16:22:04] ✅ Bảng staging đã sẵn sàng.
+[16:22:12] Đã import 100 dòng...
+[16:22:12] ✅ Import hoàn tất, tổng: 100 bản ghi.
+[16:22:12] ✅ Dữ liệu đã được load vào staging.
+[16:22:12] === KẾT THÚC PIPELINE ===
+[17:27:08] === BẮT ĐẦU PIPELINE ===
+[17:27:08] === Đang crawl trang: https://cellphones.com.vn/mobile.html?p=1
+[17:27:09] ✅ Crawl xong trang 1 (20 sản phẩm)
+[17:27:11] === Đang crawl trang: https://cellphones.com.vn/mobile.html?p=2
+[17:27:12] ✅ Crawl xong trang 2 (20 sản phẩm)
+[17:27:14] === Đang crawl trang: https://cellphones.com.vn/mobile.html?p=3
+[17:27:14] ✅ Crawl xong trang 3 (20 sản phẩm)
+[17:27:16] === Đang crawl trang: https://cellphones.com.vn/mobile.html?p=4
+[17:27:16] ✅ Crawl xong trang 4 (20 sản phẩm)
+[17:27:18] === Đang crawl trang: https://cellphones.com.vn/mobile.html?p=5
+[17:27:18] ✅ Crawl xong trang 5 (20 sản phẩm)
+[17:27:20] ✅ Crawl hoàn tất, file: 11_11_25_products.csv
+[17:27:21] ✅ Bảng staging đã sẵn sàng.
+[17:27:26] Đã import 100 dòng...
+[17:27:26] ✅ Import hoàn tất, tổng: 100 bản ghi.
+[17:27:26] ✅ Dữ liệu đã được load vào staging.
+[17:27:26] === KẾT THÚC PIPELINE ===

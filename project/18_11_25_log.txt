@@ -1,0 +1,21 @@
+[23:17:11] 👋 Đã đóng trình duyệt.
+[23:18:46] === Bắt đầu mở trình duyệt: https://cellphones.com.vn/mobile.html
+[23:18:58] 🖱 Đã click 'Xem thêm' lần thứ: 1
+[23:19:02] 🖱 Đã click 'Xem thêm' lần thứ: 2
+[23:19:05] 🖱 Đã click 'Xem thêm' lần thứ: 3
+[23:19:08] 🖱 Đã click 'Xem thêm' lần thứ: 4
+[23:19:11] 🖱 Đã click 'Xem thêm' lần thứ: 5
+[23:19:14] 🖱 Đã click 'Xem thêm' lần thứ: 6
+[23:19:17] 🖱 Đã click 'Xem thêm' lần thứ: 7
+[23:19:20] 🖱 Đã click 'Xem thêm' lần thứ: 8
+[23:19:23] 🖱 Đã click 'Xem thêm' lần thứ: 9
+[23:19:26] 🖱 Đã click 'Xem thêm' lần thứ: 10
+[23:19:28] ⏳ Đang trích xuất dữ liệu HTML...
+[23:19:29] ✅ Tìm thấy tổng cộng: 220 sản phẩm.
+[23:19:29] 👋 Đã đóng trình duyệt.
+[23:20:24] Đã import 100 dòng...
+[23:20:28] Đã import 200 dòng...
+[23:20:29] ✅ Import hoàn tất, tổng: 220 bản ghi.
+[23:23:53] Đã import 100 dòng...
+[23:24:00] Đã import 200 dòng...
+[23:24:01] ✅ Import hoàn tất, tổng: 220 bản ghi.

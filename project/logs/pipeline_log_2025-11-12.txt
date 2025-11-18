@@ -1,0 +1,333 @@
+[START] Pipeline started at  8:29:33,89 on 12/11/2025 
+ 
+[INFO] Crawling data... 
+[START] Crawl process started...
+[08:29:35] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=1
+[08:29:36] ? Crawl xong trang 1 (20 s?n ph?m)
+[08:29:38] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=2
+[08:29:38] ? Crawl xong trang 2 (20 s?n ph?m)
+[08:29:40] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=3
+[08:29:40] ? Crawl xong trang 3 (20 s?n ph?m)
+[08:29:42] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=4
+[08:29:42] ? Crawl xong trang 4 (20 s?n ph?m)
+[08:29:44] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=5
+[08:29:45] ? Crawl xong trang 5 (20 s?n ph?m)
+[DONE] Crawl finished successfully -> File: 12_11_25_products.csv
+[INFO] Loading data into MySQL... 
+[START] Import process started...
+[INFO] Loading file: T:\DataWarehouse_project\project/12_11_25_products.csv
+[08:29:55] �? import 100 d?ng...
+[08:29:55] ? Import ho�n t?t, t?ng: 100 b?n ghi.
+[DONE] Import completed successfully.
+[SUCCESS] Pipeline completed successfully at  8:30:10,83 
+------------------------------------------------------- 
+ 
+[START] Pipeline started at  8:36:57,26 on 12/11/2025 
+ 
+[INFO] Crawling data... 
+[START] Crawl process started...
+[08:36:59] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=1
+[08:37:00] ? Crawl xong trang 1 (20 s?n ph?m)
+[08:37:02] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=2
+[08:37:02] ? Crawl xong trang 2 (20 s?n ph?m)
+[08:37:04] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=3
+[08:37:04] ? Crawl xong trang 3 (20 s?n ph?m)
+[08:37:06] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=4
+[08:37:06] ? Crawl xong trang 4 (20 s?n ph?m)
+[08:37:08] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=5
+[08:37:08] ? Crawl xong trang 5 (20 s?n ph?m)
+[DONE] Crawl finished successfully -> File: 12_11_25_products.csv
+[INFO] Loading data into MySQL... 
+[START] Import process started...
+[INFO] Loading file: T:\DataWarehouse_project\project/12_11_25_products.csv
+java.sql.BatchUpdateException: Table 'staging_db.stg_products_raw' doesn't exist
+	at com.mysql.cj.jdbc.exceptions.SQLError.createBatchUpdateException(SQLError.java:224)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeBatchSerially(ClientPreparedStatement.java:816)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeBatchInternal(ClientPreparedStatement.java:418)
+	at com.mysql.cj.jdbc.StatementImpl.executeBatch(StatementImpl.java:795)
+	at vn.edu.hcmuaf.fit.load_data.LoadToDB.load(CsvToMySQLLoader.java:38)
+	at vn.edu.hcmuaf.fit.load_data.LoadToDB.main(CsvToMySQLLoader.java:55)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.codehaus.mojo.exec.AbstractExecJavaBase.executeMainMethod(AbstractExecJavaBase.java:402)
+	at org.codehaus.mojo.exec.ExecJavaMojo.executeMainMethod(ExecJavaMojo.java:142)
+	at org.codehaus.mojo.exec.AbstractExecJavaBase.doExecClassLoader(AbstractExecJavaBase.java:377)
+	at org.codehaus.mojo.exec.AbstractExecJavaBase.lambda$execute$0(AbstractExecJavaBase.java:287)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+Caused by: java.sql.SQLSyntaxErrorException: Table 'staging_db.stg_products_raw' doesn't exist
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:916)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1061)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeBatchSerially(ClientPreparedStatement.java:795)
+	... 13 more
+[ERROR] Import failed: Table 'staging_db.stg_products_raw' doesn't exist
+[SUCCESS] Pipeline completed successfully at  8:37:31,85 
+------------------------------------------------------- 
+ 
+[START] Pipeline started at  8:39:45,51 on 12/11/2025 
+ 
+[INFO] Crawling data... 
+[START] Crawl process started...
+[08:39:47] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=1
+[08:39:48] ? Crawl xong trang 1 (20 s?n ph?m)
+[08:39:50] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=2
+[08:39:50] ? Crawl xong trang 2 (20 s?n ph?m)
+[08:39:52] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=3
+[08:39:52] ? Crawl xong trang 3 (20 s?n ph?m)
+[08:39:54] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=4
+[08:39:54] ? Crawl xong trang 4 (20 s?n ph?m)
+[08:39:56] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=5
+[08:39:57] ? Crawl xong trang 5 (20 s?n ph?m)
+[DONE] Crawl finished successfully -> File: 12_11_25_products.csv
+[INFO] Loading data into MySQL... 
+[START] Import process started...
+[INFO] Loading file: T:\DataWarehouse_project\project/12_11_25_products.csv
+java.sql.BatchUpdateException: Unknown column 'discount_price' in 'field list'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createBatchUpdateException(SQLError.java:224)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeBatchSerially(ClientPreparedStatement.java:816)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeBatchInternal(ClientPreparedStatement.java:418)
+	at com.mysql.cj.jdbc.StatementImpl.executeBatch(StatementImpl.java:795)
+	at vn.edu.hcmuaf.fit.load_data.LoadToDB.load(CsvToMySQLLoader.java:38)
+	at vn.edu.hcmuaf.fit.load_data.LoadToDB.main(CsvToMySQLLoader.java:55)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.codehaus.mojo.exec.AbstractExecJavaBase.executeMainMethod(AbstractExecJavaBase.java:402)
+	at org.codehaus.mojo.exec.ExecJavaMojo.executeMainMethod(ExecJavaMojo.java:142)
+	at org.codehaus.mojo.exec.AbstractExecJavaBase.doExecClassLoader(AbstractExecJavaBase.java:377)
+	at org.codehaus.mojo.exec.AbstractExecJavaBase.lambda$execute$0(AbstractExecJavaBase.java:287)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+Caused by: java.sql.SQLSyntaxErrorException: Unknown column 'discount_price' in 'field list'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:916)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1061)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeBatchSerially(ClientPreparedStatement.java:795)
+	... 13 more
+[ERROR] Import failed: Unknown column 'discount_price' in 'field list'
+[SUCCESS] Pipeline completed successfully at  8:40:21,36 
+------------------------------------------------------- 
+ 
+[START] Pipeline started at  8:41:17,98 on 12/11/2025 
+ 
+[INFO] Crawling data... 
+[START] Crawl process started...
+[08:41:19] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=1
+[08:41:20] ? Crawl xong trang 1 (20 s?n ph?m)
+[08:41:22] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=2
+[08:41:22] ? Crawl xong trang 2 (20 s?n ph?m)
+[08:41:24] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=3
+[08:41:24] ? Crawl xong trang 3 (20 s?n ph?m)
+[08:41:26] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=4
+[08:41:27] ? Crawl xong trang 4 (20 s?n ph?m)
+[08:41:29] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=5
+[08:41:29] ? Crawl xong trang 5 (20 s?n ph?m)
+[DONE] Crawl finished successfully -> File: 12_11_25_products.csv
+[INFO] Loading data into MySQL... 
+[START] Import process started...
+[INFO] Loading file: T:\DataWarehouse_project\project/12_11_25_products.csv
+java.sql.BatchUpdateException: Unknown column 'discount_price' in 'field list'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createBatchUpdateException(SQLError.java:224)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeBatchSerially(ClientPreparedStatement.java:816)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeBatchInternal(ClientPreparedStatement.java:418)
+	at com.mysql.cj.jdbc.StatementImpl.executeBatch(StatementImpl.java:795)
+	at vn.edu.hcmuaf.fit.load_data.LoadToDB.load(CsvToMySQLLoader.java:38)
+	at vn.edu.hcmuaf.fit.load_data.LoadToDB.main(CsvToMySQLLoader.java:55)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.codehaus.mojo.exec.AbstractExecJavaBase.executeMainMethod(AbstractExecJavaBase.java:402)
+	at org.codehaus.mojo.exec.ExecJavaMojo.executeMainMethod(ExecJavaMojo.java:142)
+	at org.codehaus.mojo.exec.AbstractExecJavaBase.doExecClassLoader(AbstractExecJavaBase.java:377)
+	at org.codehaus.mojo.exec.AbstractExecJavaBase.lambda$execute$0(AbstractExecJavaBase.java:287)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+Caused by: java.sql.SQLSyntaxErrorException: Unknown column 'discount_price' in 'field list'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:916)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1061)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeBatchSerially(ClientPreparedStatement.java:795)
+	... 13 more
+[ERROR] Import failed: Unknown column 'discount_price' in 'field list'
+[SUCCESS] Pipeline completed successfully at  8:41:54,12 
+------------------------------------------------------- 
+ 
+[START] Pipeline started at  8:46:45,28 on 12/11/2025 
+ 
+[INFO] Crawling data... 
+[START] Crawl process started...
+[08:46:47] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=1
+[08:46:47] ? Crawl xong trang 1 (20 s?n ph?m)
+[08:46:49] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=2
+[08:46:49] ? Crawl xong trang 2 (20 s?n ph?m)
+[08:46:51] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=3
+[08:46:52] ? Crawl xong trang 3 (20 s?n ph?m)
+[08:46:54] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=4
+[08:46:54] ? Crawl xong trang 4 (20 s?n ph?m)
+[08:46:56] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=5
+[08:46:56] ? Crawl xong trang 5 (20 s?n ph?m)
+[DONE] Crawl finished successfully -> File: 12_11_25_products.csv
+[INFO] Loading data into MySQL... 
+[START] Import process started...
+[INFO] Loading file: T:\DataWarehouse_project\project/12_11_25_products.csv
+java.sql.BatchUpdateException: Unknown column 'discount_price' in 'field list'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createBatchUpdateException(SQLError.java:224)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeBatchSerially(ClientPreparedStatement.java:816)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeBatchInternal(ClientPreparedStatement.java:418)
+	at com.mysql.cj.jdbc.StatementImpl.executeBatch(StatementImpl.java:795)
+	at vn.edu.hcmuaf.fit.load_data.LoadToDB.load(CsvToMySQLLoader.java:38)
+	at vn.edu.hcmuaf.fit.load_data.LoadToDB.main(CsvToMySQLLoader.java:55)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.codehaus.mojo.exec.AbstractExecJavaBase.executeMainMethod(AbstractExecJavaBase.java:402)
+	at org.codehaus.mojo.exec.ExecJavaMojo.executeMainMethod(ExecJavaMojo.java:142)
+	at org.codehaus.mojo.exec.AbstractExecJavaBase.doExecClassLoader(AbstractExecJavaBase.java:377)
+	at org.codehaus.mojo.exec.AbstractExecJavaBase.lambda$execute$0(AbstractExecJavaBase.java:287)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+Caused by: java.sql.SQLSyntaxErrorException: Unknown column 'discount_price' in 'field list'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:916)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1061)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeBatchSerially(ClientPreparedStatement.java:795)
+	... 13 more
+[ERROR] Import failed: Unknown column 'discount_price' in 'field list'
+[SUCCESS] Pipeline completed successfully at  8:47:21,44 
+------------------------------------------------------- 
+ 
+[START] Pipeline started at  8:53:35,93 on 12/11/2025 
+ 
+[INFO] Crawling data... 
+[START] Crawl process started...
+[08:53:37] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=1
+[08:53:38] ? Crawl xong trang 1 (20 s?n ph?m)
+[08:53:40] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=2
+[08:53:40] ? Crawl xong trang 2 (20 s?n ph?m)
+[08:53:42] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=3
+[08:53:42] ? Crawl xong trang 3 (20 s?n ph?m)
+[08:53:44] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=4
+[08:53:45] ? Crawl xong trang 4 (20 s?n ph?m)
+[08:53:47] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=5
+[08:53:47] ? Crawl xong trang 5 (20 s?n ph?m)
+[DONE] Crawl finished successfully -> File: 12_11_25_products.csv
+[INFO] Loading data into MySQL... 
+[START] Import process started...
+[INFO] Loading file: T:\DataWarehouse_project\project/12_11_25_products.csv
+[08:53:57] �? import 100 d?ng...
+[08:53:57] ? Import ho�n t?t, t?ng: 100 b?n ghi.
+[DONE] Import completed successfully.
+[SUCCESS] Pipeline completed successfully at  8:54:12,38 
+------------------------------------------------------- 
+ 
+[START] Pipeline started at  9:21:17,96 on 12/11/2025 
+ 
+[INFO] Crawling data... 
+[START] Crawl process started...
+[09:21:21] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=1
+[09:21:21] ? Crawl xong trang 1 (20 s?n ph?m)
+[09:21:23] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=2
+[09:21:23] ? Crawl xong trang 2 (20 s?n ph?m)
+[09:21:25] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=3
+[09:21:26] ? Crawl xong trang 3 (20 s?n ph?m)
+[09:21:28] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=4
+[09:21:28] ? Crawl xong trang 4 (20 s?n ph?m)
+[09:21:30] === �ang crawl trang: https://cellphones.com.vn/mobile.html?p=5
+[09:21:30] ? Crawl xong trang 5 (20 s?n ph?m)
+[DONE] Crawl finished successfully -> File: 12_11_25_products.csv
+[INFO] Loading data into MySQL... 
+[START] Import process started...
+[INFO] Loading file: T:\DataWarehouse_project\project/12_11_25_products.csv
+[09:21:47] �? import 100 d?ng...
+[09:21:47] ? Import ho�n t?t, t?ng: 100 b?n ghi.
+[DONE] Import completed successfully.
+[SUCCESS] Pipeline completed successfully at  9:22:02,67 
+------------------------------------------------------- 
+ 
+[START] Pipeline started at  9:26:04,53 on 12/11/2025 
+ 
+[INFO] Crawling data... 
+[START] Crawl process started...
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+thg 11 12, 2025 9:26:15 SA org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 142
+thg 11 12, 2025 9:26:15 SA org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 142.0.7444.134. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.23.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+[09:26:15] ? M? trang: https://cellphones.com.vn/mobile.html
+[09:26:24] ? Kh�ng t?m th?y n�t 'Xem th�m' ? l?n 1, d?ng l?i.
+[09:26:24] ? Crawl ho�n t?t: 20 s?n ph?m.
+[DONE] Crawl finished successfully -> File: 12_11_25_products.csv
+[INFO] Loading data into MySQL... 
+[START] Import process started...
+[INFO] Loading file: T:\DataWarehouse_project\project/12_11_25_products.csv
+[09:26:43] ? Import ho�n t?t, t?ng: 20 b?n ghi.
+[DONE] Import completed successfully.
+[SUCCESS] Pipeline completed successfully at  9:26:58,57 
+------------------------------------------------------- 
+ 
+[START] Pipeline started at  9:30:57,94 on 12/11/2025 
+ 
+[INFO] Crawling data... 
+[START] Crawl process started...
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+thg 11 12, 2025 9:31:01 SA org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 142
+thg 11 12, 2025 9:31:01 SA org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 142.0.7444.134. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.23.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+[09:31:01] ? M? trang: https://cellphones.com.vn/mobile.html
+org.openqa.selenium.TimeoutException: java.net.http.HttpTimeoutException: request timed out
+Build info: version: '4.23.0', revision: '4df0a231af'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.12'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [2189d9ab732efd37298527cfea1f55cc, get {url=https://cellphones.com.vn/mobile.html}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.134, chrome: {chromedriverVersion: 142.0.7444.162 (c076baf266c..., userDataDir: C:\Users\Admin\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:50165}, goog:processID: 15060, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:50165/devtoo..., se:cdpVersion: 142.0.7444.134, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 2189d9ab732efd37298527cfea1f55cc
+	at org.openqa.selenium.remote.http.jdk.JdkHttpClient.execute0(JdkHttpClient.java:389)
+	at org.openqa.selenium.remote.http.AddSeleniumUserAgent.lambda$apply$0(AddSeleniumUserAgent.java:42)
+	at org.openqa.selenium.remote.http.Filter.lambda$andFinally$1(Filter.java:55)
+	at org.openqa.selenium.remote.http.jdk.JdkHttpClient.execute(JdkHttpClient.java:355)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:187)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.invokeExecute(DriverCommandExecutor.java:216)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:174)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:527)
+	at org.openqa.selenium.remote.RemoteWebDriver.get(RemoteWebDriver.java:302)
+	at vn.edu.hcmuaf.fit.crawl.Extract.crawlToCSV(CrawlData.java:41)
+	at vn.edu.hcmuaf.fit.crawl.Extract.main(CrawlData.java:99)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.codehaus.mojo.exec.AbstractExecJavaBase.executeMainMethod(AbstractExecJavaBase.java:402)
+	at org.codehaus.mojo.exec.ExecJavaMojo.executeMainMethod(ExecJavaMojo.java:142)
+	at org.codehaus.mojo.exec.AbstractExecJavaBase.doExecClassLoader(AbstractExecJavaBase.java:377)
+	at org.codehaus.mojo.exec.AbstractExecJavaBase.lambda$execute$0(AbstractExecJavaBase.java:287)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+Caused by: java.net.http.HttpTimeoutException: request timed out
+	at java.net.http/jdk.internal.net.http.ResponseTimerEvent.handle(ResponseTimerEvent.java:63)
+	at java.net.http/jdk.internal.net.http.HttpClientImpl.purgeTimeoutsAndReturnNextDeadline(HttpClientImpl.java:1273)
+	at java.net.http/jdk.internal.net.http.HttpClientImpl$SelectorManager.run(HttpClientImpl.java:902)
+[ERROR] Crawl failed: java.net.http.HttpTimeoutException: request timed out
+Build info: version: '4.23.0', revision: '4df0a231af'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.12'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [2189d9ab732efd37298527cfea1f55cc, get {url=https://cellphones.com.vn/mobile.html}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 142.0.7444.134, chrome: {chromedriverVersion: 142.0.7444.162 (c076baf266c..., userDataDir: C:\Users\Admin\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:50165}, goog:processID: 15060, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:50165/devtoo..., se:cdpVersion: 142.0.7444.134, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 2189d9ab732efd37298527cfea1f55cc
+[INFO] Loading data into MySQL... 
+[START] Import process started...
+[INFO] Loading file: T:\DataWarehouse_project\project/12_11_25_products.csv
+[09:34:21] ? Import ho�n t?t, t?ng: 20 b?n ghi.
+[DONE] Import completed successfully.
+[SUCCESS] Pipeline completed successfully at  9:34:37,02 
+------------------------------------------------------- 
+ 
