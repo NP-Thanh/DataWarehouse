@@ -14,6 +14,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import vn.edu.hcmuaf.fit.util.LoggerUtil;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -57,7 +58,7 @@ public class Extract {
                     List<WebElement> buttons = driver.findElements(By.cssSelector(".btn-show-more"));
 
                     if (buttons.isEmpty() || !buttons.get(0).isDisplayed()) {
-                        LoggerUtil.log("Không tìm thấy nút 'Xem thêm' -> Đã load hết trang.");
+                        LoggerUtil.log("Không thể load dữ liệu. Kết thúc process Extract!");
                         break;
                     }
 
@@ -122,7 +123,7 @@ public class Extract {
         } finally {
             // Đóng trình duyệt
             driver.quit();
-            LoggerUtil.log("Đã đóng trình duyệt.");
+            LoggerUtil.log("Trình duyệt đã load xong.");
         }
         return csvFile;
     }
@@ -141,14 +142,38 @@ public class Extract {
         if (lower.contains("tecno")) return "Tecno";
         if (lower.contains("infinix")) return "Infinix";
         return "Other";
-    }
+   }
 
     public static void main(String[] args) {
-        System.out.println("[START] Crawl process started...");
+
+        String runId = null;
+        int recordCount = 0;
+        String dateStr = new SimpleDateFormat("dd_MM_yy").format(new Date());
+
         try {
+            // 1. GHI LOG BẮT ĐẦU VÀO CONTROL DB
+            // Sử dụng ID nguồn Cellphones (1) và tên Operator (ETL_JOB)
+            runId = LoggerUtil.startProcess(LoggerUtil.SOURCE_CELLPHONES_ID, "Extract");
+            if (runId == null) {
+                throw new Exception("Không thể khởi tạo Run ID hoặc kết nối Control DB bị lỗi.");
+            }
+
+            // 2. CHẠY LOGIC CÀO DỮ LIỆU
+            LoggerUtil.log("Bắt đầu thực thi Script 1: EXTRACT.");
             String csvFile = crawlToCSV();
-            System.out.println("[DONE] Crawl finished successfully -> File: " + csvFile);
+
+            // Đọc lại số lượng bản ghi (Tuy nhiên, do hàm crawlToCSV hiện không trả về count, ta cần ước tính)
+            recordCount = (int) java.nio.file.Files.lines(new File(csvFile).toPath()).count() - 1;
+
+            // 3. KẾT THÚC THÀNH CÔNG VÀ CẬP NHẬT CONTROL DB
+            LoggerUtil.endProcess(recordCount, "SUCCESS", null);
+            LoggerUtil.log("✅ Extract hoàn tất, tổng bản ghi: " + recordCount);
+
+            // 4. XUẤT FILE CONFIG (lưu thông tin trạng thái)
+            LoggerUtil.exportConfigFile(dateStr);
+
         } catch (Exception e) {
+            LoggerUtil.endProcess(recordCount, "FAILED", "Lỗi Extract: " + e.getMessage());
             System.err.println("[ERROR] Crawl failed: " + e.getMessage());
             e.printStackTrace();
         }

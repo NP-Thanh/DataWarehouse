@@ -7,7 +7,7 @@ import java.sql.*;
 
 public class LoadDimProduct {
 
-    public static void loadDim() throws Exception {
+    public static int loadDim() throws Exception {
         String selectClean = """
                     SELECT DISTINCT product_name, brand, url, image_url
                     FROM stg_products_clean
@@ -24,7 +24,7 @@ public class LoadDimProduct {
                     VALUES (?, ?, ?, ?)
                     ON DUPLICATE KEY UPDATE product_key = product_key
                 """;
-
+        int count = 0;
 
         try (Connection conn = DatabaseConfig.getConnection()) {
             PreparedStatement psSelect = conn.prepareStatement(selectClean);
@@ -32,8 +32,6 @@ public class LoadDimProduct {
 
             PreparedStatement psCheck = conn.prepareStatement(checkExist);
             PreparedStatement psInsert = conn.prepareStatement(insertDim);
-
-            int count = 0;
 
             while (rs.next()) {
                 String name = rs.getString("product_name");
@@ -52,26 +50,42 @@ public class LoadDimProduct {
                     psInsert.setString(3, url);
                     psInsert.setString(4, img);
                     psInsert.addBatch();
-                    if (++count % 100 == 0) {
-                        psInsert.executeBatch();
-                        LoggerUtil.log("Đã clean " + count + " dòng...");
-                    }
+                    count++;
                 }
             }
 
             psInsert.executeBatch();
             LoggerUtil.log("Dim product inserted: " + count + " new records.");
         }
+        return count;
     }
 
-    public static void main(String[] args) throws Exception {
-        System.out.println("[START] Load dim_product process started...");
+    public static void main(String[] args) {
+        String runId = null;
+        int recordCount = 0;
+
         try {
-            loadDim();
-            System.out.println("[DONE] Load dim_product completed successfully.");
+            // 1. GHI LOG BẮT ĐẦU VÀO CONTROL DB
+            runId = LoggerUtil.startProcess(LoggerUtil.SOURCE_CELLPHONES_ID, "Load dim_product");
+            if (runId == null) {
+                throw new Exception("Không thể khởi tạo Run ID hoặc kết nối Control DB bị lỗi.");
+            }
+            LoggerUtil.log("Bắt đầu thực thi Script 3");
+
+            // 3. THỰC HIỆN TRANSFORM VÀ LOAD
+            recordCount = loadDim();
+
+            // 4. KẾT THÚC THÀNH CÔNG VÀ CẬP NHẬT CONTROL DB
+            LoggerUtil.endProcess(recordCount, "SUCCESS", null);
+            LoggerUtil.log("Load Dim Product hoàn tất. Tổng bản ghi được xử lý: " + recordCount);
+
         } catch (Exception e) {
-            e.printStackTrace();
+            // 6. KẾT THÚC THẤT BẠI VÀ GHI LỖI VÀO CONTROL DB
+            if (runId != null) {
+                LoggerUtil.endProcess(recordCount, "FAILED", "Lỗi Load Dim Product: " + e.getMessage());
+            }
             System.err.println("[ERROR] Load dim_product failed: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
