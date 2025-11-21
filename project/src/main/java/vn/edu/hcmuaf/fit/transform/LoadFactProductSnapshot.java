@@ -8,7 +8,7 @@ import java.sql.*;
 
 public class LoadFactProductSnapshot {
 
-    public static void loadFactSnapshot() throws Exception {
+    public static int loadFactSnapshot() throws Exception {
 
         String selectClean = """
             SELECT product_name, brand, price, original_price, crawl_date
@@ -33,6 +33,8 @@ public class LoadFactProductSnapshot {
             ON DUPLICATE KEY UPDATE price = VALUES(price), original_price = VALUES(original_price)
         """;
 
+        int count=0;
+
         try (Connection conn = DatabaseConfig.getConnection()) {
             PreparedStatement psSelect = conn.prepareStatement(selectClean);
             ResultSet rs = psSelect.executeQuery();
@@ -40,8 +42,6 @@ public class LoadFactProductSnapshot {
             PreparedStatement psProductKey = conn.prepareStatement(selectProductKey);
             PreparedStatement psDateKey = conn.prepareStatement(selectDateKey);
             PreparedStatement psInsert = conn.prepareStatement(insertFact);
-
-            int count = 0;
 
             while (rs.next()) {
                 String name = rs.getString("product_name");
@@ -71,25 +71,40 @@ public class LoadFactProductSnapshot {
                 psInsert.setDate(5, crawlDate);
 
                 psInsert.addBatch();
-                if (++count % 100 == 0) {
-                    psInsert.executeBatch();
-                    LoggerUtil.log("Inserted " + count + " fact records...");
-                }
+                count++;
             }
 
             psInsert.executeBatch();
             LoggerUtil.log("Fact product snapshot inserted: " + count + " records.");
         }
+        return count;
     }
 
-    public static void main(String[] args) throws Exception {
-        System.out.println("[START] Load fact_product_snapshot process started...");
+    public static void main(String[] args) {
+        String runId = null;
+        int recordCount = 0;
+
         try {
-            loadFactSnapshot();
-            System.out.println("[DONE] Load fact_product_snapshot completed successfully.");
+            // 1. GHI LOG BẮT ĐẦU VÀO CONTROL DB
+            runId = LoggerUtil.startProcess(LoggerUtil.SOURCE_CELLPHONES_ID, "Load fact_product_snapshot");
+            if (runId == null) {
+                throw new Exception("Không thể khởi tạo Run ID hoặc kết nối Control DB bị lỗi.");
+            }
+            LoggerUtil.log("Bắt đầu thực thi Script 6: LOAD FACT PRODUCT SNAPSHOT.");
+
+            // 3. THỰC HIỆN TRANSFORM VÀ LOAD
+            recordCount = loadFactSnapshot();
+
+            // 4. KẾT THÚC THÀNH CÔNG VÀ CẬP NHẬT CONTROL DB
+            LoggerUtil.endProcess(recordCount, "SUCCESS", null);
+            LoggerUtil.log("Load Fact Snapshot hoàn tất. Tổng bản ghi được xử lý: " + recordCount);
         } catch (Exception e) {
-            e.printStackTrace();
+            // 6. KẾT THÚC THẤT BẠI VÀ GHI LỖI VÀO CONTROL DB
+            if (runId != null) {
+                LoggerUtil.endProcess(recordCount, "FAILED", "Lỗi Load Fact Snapshot: " + e.getMessage());
+            }
             System.err.println("[ERROR] Load fact_product_snapshot failed: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

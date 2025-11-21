@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 
 public class LoadCleanToDB {
 
-    public static void load() throws Exception {
+    public static int load() throws Exception {
 
         String selectRaw = """
             SELECT product_name, brand, price, original_price, url, image_url, crawl_date
@@ -23,14 +23,15 @@ public class LoadCleanToDB {
             VALUES (?, ?, ?, ?, ?, ?, ?)
         """;
 
+        int count = 0;
+        int successfulInserts = 0;
+
         try (Connection conn = DatabaseConfig.getConnection()) {
 
             PreparedStatement psSelect = conn.prepareStatement(selectRaw);
             ResultSet rs = psSelect.executeQuery();
 
             PreparedStatement psInsert = conn.prepareStatement(insertClean);
-
-            int count = 0;
 
             while (rs.next()) {
                 // Làm sạch dữ liệu bằng CleanUtil
@@ -51,26 +52,40 @@ public class LoadCleanToDB {
                 psInsert.setDate(7, crawlDate);
 
                 psInsert.addBatch();
-
-                if (++count % 100 == 0) {
-                    psInsert.executeBatch();
-                    LoggerUtil.log("Đã clean " + count + " dòng...");
-                }
+                count++;
             }
 
             psInsert.executeBatch();
             LoggerUtil.log("Clean hoàn tất: " + count + " bản ghi.");
         }
+        return count;
     }
 
     public static void main(String[] args) {
-        System.out.println("[START] Clean process started...");
+        String runId = null;
+        int recordCount = 0;
+
         try {
-            load();
-            System.out.println("[DONE] Clean completed successfully.");
+            // 1. GHI LOG BẮT ĐẦU VÀO CONTROL DB
+            runId = LoggerUtil.startProcess(LoggerUtil.SOURCE_CELLPHONES_ID, "Clean data");
+            if (runId == null) {
+                throw new Exception("Không thể khởi tạo Run ID hoặc kết nối Control DB bị lỗi.");
+            }
+            LoggerUtil.log("Bắt đầu thực thi CLEAN DATA.");
+
+            // 2. THỰC HIỆN CLEAN VÀ LOAD
+            recordCount = load(); // Lấy số lượng bản ghi đã insert thành công
+
+            // 3. KẾT THÚC THÀNH CÔNG VÀ CẬP NHẬT CONTROL DB
+            LoggerUtil.endProcess(recordCount, "SUCCESS", null);
+            LoggerUtil.log("✅ Clean & Load hoàn tất, tổng bản ghi sạch: " + recordCount);
         } catch (Exception e) {
-            e.printStackTrace();
+            // 4. KẾT THÚC THẤT BẠI VÀ GHI LỖI VÀO CONTROL DB
+            if (runId != null) {
+                LoggerUtil.endProcess(recordCount, "FAILED", "Lỗi Clean Data: " + e.getMessage());
+            }
             System.err.println("[ERROR] Clean failed: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
