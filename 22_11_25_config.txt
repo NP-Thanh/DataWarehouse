@@ -1,0 +1,7 @@
+# --- ETL Configuration File for Cellphones --- 
+# Generated on: 2025-11-22 23:56:22
+# Lưu trữ các tham số quan trọng cho Scheduler.
+
+LAST_SUCCESSFUL_RUN_TIME=2025-11-22 16:56:21
+CURRENT_RUN_ID=null
+STAGING_CSV_FILE=22_11_25_products.csv
