@@ -8,7 +8,7 @@ import java.sql.*;
 
 public class LoadDimDateToWarehouse {
 
-    public static void load() throws Exception {
+    public static int load() throws Exception {
         LoggerUtil.log("=== [Script 4.1] Bắt đầu load dim_date từ staging_db sang warehouse_db ===");
 
         String selectFromStaging = """
@@ -33,6 +33,8 @@ public class LoadDimDateToWarehouse {
             ON DUPLICATE KEY UPDATE date_key = date_key
         """;
 
+        int count = 0;
+
         try (Connection stagingConn = StagingDBConfig.getConnection();
              Connection warehouseConn = WarehouseDBConfig.getConnection()) {
 
@@ -40,9 +42,6 @@ public class LoadDimDateToWarehouse {
             ResultSet rs = psSelect.executeQuery();
 
             PreparedStatement psInsert = warehouseConn.prepareStatement(insertToWarehouse);
-
-            int count = 0;
-            int skipped = 0;
 
             while (rs.next()) {
                 psInsert.setInt(1, rs.getInt("date_key"));
@@ -59,7 +58,12 @@ public class LoadDimDateToWarehouse {
                 psInsert.setString(12, rs.getString("week_year_label"));
                 psInsert.setDate(13, rs.getDate("week_start_date"));
                 psInsert.setInt(14, rs.getInt("quarter_number"));
-                psInsert.setString(15, rs.getString("quarter_year_label"));
+
+                String quarterYearLabel = rs.getString("quarter_year_label");
+                if (quarterYearLabel != null && quarterYearLabel.length() > 20) {
+                    quarterYearLabel = quarterYearLabel.substring(0, 20);
+                }
+                psInsert.setString(15, quarterYearLabel);
                 psInsert.setDate(16, rs.getDate("quarter_start_date"));
 
                 String holidayFlag = rs.getString("holiday_flag");
@@ -69,8 +73,9 @@ public class LoadDimDateToWarehouse {
                 psInsert.setInt(18, "Weekend".equalsIgnoreCase(weekendFlag) ? 1 : 0);
 
                 psInsert.addBatch();
+                count++;
 
-                if (++count % 500 == 0) {
+                if (count % 500 == 0) {
                     psInsert.executeBatch();
                     LoggerUtil.log("Đã load " + count + " dòng dim_date...");
                 }
@@ -79,15 +84,7 @@ public class LoadDimDateToWarehouse {
             psInsert.executeBatch();
             LoggerUtil.log("✅ Load dim_date hoàn tất. Tổng: " + count + " bản ghi.");
         }
-    }
 
-    public static void main(String[] args) {
-        try {
-            load();
-            System.out.println("[DONE] LoadDimDateToWarehouse completed successfully.");
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("[ERROR] LoadDimDateToWarehouse failed: " + e.getMessage());
-        }
+        return count;
     }
 }

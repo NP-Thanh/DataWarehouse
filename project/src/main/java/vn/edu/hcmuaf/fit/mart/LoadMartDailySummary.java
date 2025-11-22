@@ -8,79 +8,95 @@ import java.sql.*;
 
 public class LoadMartDailySummary {
 
-    public static void load() throws Exception {
-        LoggerUtil.log("=== [Script 5.2] Bắt đầu load mart_daily_summary ===");
+    public static int load() throws Exception {
+        LoggerUtil.log("=== [Script 5.2b] Load mart_daily_summary từ agg_daily_summary sang data_mart ===");
 
-        String selectAggregate = """
-            SELECT 
-                d.full_date,
-                COUNT(DISTINCT p.product_id) as total_products,
-                SUM(f.total_revenue) as total_revenue,
-                SUM(f.units_sold) as total_units_sold,
-                AVG(p.current_price) as avg_price
-            FROM fact_product_price_daily f
-            INNER JOIN dim_date d ON f.date_key = d.date_key
-            INNER JOIN dim_product p ON f.product_key = p.product_key
-            GROUP BY d.full_date
-            ORDER BY d.full_date
+        String dropTable = """
+            DROP TABLE IF EXISTS mart_daily_summary
         """;
 
-        String insertSummary = """
+        String createTable = """
+            CREATE TABLE mart_daily_summary (
+                mart_daily_summary_key INT AUTO_INCREMENT PRIMARY KEY,
+                summary_date DATE NOT NULL UNIQUE,
+                total_products INT DEFAULT 0,
+                total_revenue DECIMAL(15, 2) DEFAULT 0,
+                total_units_sold INT DEFAULT 0,
+                avg_price DECIMAL(10, 2) DEFAULT 0
+            )
+        """;
+
+        String selectFromWarehouse = """
+            SELECT 
+                full_date,
+                total_products,
+                total_revenue,
+                total_units_sold,
+                avg_price
+            FROM agg_daily_summary
+        """;
+
+        String insertIntoDataMart = """
             INSERT INTO mart_daily_summary (
-                full_date, total_products, total_revenue, 
-                total_units_sold, avg_price
+                summary_date, total_products, total_revenue, total_units_sold, avg_price
             )
             VALUES (?, ?, ?, ?, ?)
-            ON DUPLICATE KEY UPDATE 
+            ON DUPLICATE KEY UPDATE
                 total_products = VALUES(total_products),
                 total_revenue = VALUES(total_revenue),
                 total_units_sold = VALUES(total_units_sold),
-                avg_price = VALUES(avg_price),
-                created_at = CURRENT_TIMESTAMP
+                avg_price = VALUES(avg_price)
         """;
+
+        int count = 0;
 
         try (Connection warehouseConn = WarehouseDBConfig.getConnection();
              Connection dataMartConn = DataMartDBConfig.getConnection()) {
 
             dataMartConn.setAutoCommit(false);
 
-            PreparedStatement psSelect = warehouseConn.prepareStatement(selectAggregate);
+            PreparedStatement psDropTable = dataMartConn.prepareStatement(dropTable);
+            psDropTable.executeUpdate();
+            psDropTable.close();
+
+            PreparedStatement psCreateTable = dataMartConn.prepareStatement(createTable);
+            psCreateTable.executeUpdate();
+            psCreateTable.close();
+
+            PreparedStatement psSelect = warehouseConn.prepareStatement(selectFromWarehouse);
             ResultSet rs = psSelect.executeQuery();
 
-            PreparedStatement psInsert = dataMartConn.prepareStatement(insertSummary);
-
-            int count = 0;
+            PreparedStatement psInsert = dataMartConn.prepareStatement(insertIntoDataMart);
 
             while (rs.next()) {
-                psInsert.setDate(1, rs.getDate("full_date"));
-                psInsert.setInt(2, rs.getInt("total_products"));
-                psInsert.setBigDecimal(3, rs.getBigDecimal("total_revenue"));
-                psInsert.setInt(4, rs.getInt("total_units_sold"));
-                psInsert.setBigDecimal(5, rs.getBigDecimal("avg_price"));
+                Date summaryDate = rs.getDate("full_date");
+                int totalProducts = rs.getInt("total_products");
+                java.math.BigDecimal totalRevenue = rs.getBigDecimal("total_revenue");
+                int totalUnitsSold = rs.getInt("total_units_sold");
+                java.math.BigDecimal avgPrice = rs.getBigDecimal("avg_price");
+
+                psInsert.setDate(1, summaryDate);
+                psInsert.setInt(2, totalProducts);
+                psInsert.setBigDecimal(3, totalRevenue);
+                psInsert.setInt(4, totalUnitsSold);
+                psInsert.setBigDecimal(5, avgPrice);
 
                 psInsert.addBatch();
+                count++;
 
-                if (++count % 100 == 0) {
+                if (count % 100 == 0) {
                     psInsert.executeBatch();
                     dataMartConn.commit();
-                    LoggerUtil.log("Đã tổng hợp " + count + " daily summary records...");
+                    LoggerUtil.log("Đã insert " + count + " records vào mart_daily_summary...");
                 }
             }
 
             psInsert.executeBatch();
             dataMartConn.commit();
 
-            LoggerUtil.log("✅ Load mart_daily_summary hoàn tất. Tổng: " + count + " ngày");
+            LoggerUtil.log("✅ Load mart_daily_summary hoàn tất: " + count + " records");
         }
-    }
 
-    public static void main(String[] args) {
-        try {
-            load();
-            System.out.println("[DONE] LoadMartDailySummary completed successfully.");
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("[ERROR] LoadMartDailySummary failed: " + e.getMessage());
-        }
+        return count;
     }
 }

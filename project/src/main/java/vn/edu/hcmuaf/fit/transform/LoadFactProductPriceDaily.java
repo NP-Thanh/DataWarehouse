@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class LoadFactProductPriceDaily {
 
-    public static void load() throws Exception {
+    public static int load() throws Exception {
         LoggerUtil.log("=== [Script 4.3] Bắt đầu load fact_product_price_daily ===");
 
         String selectFromStaging = """
@@ -21,7 +21,8 @@ public class LoadFactProductPriceDaily {
         String getProductKey = """
             SELECT product_key
             FROM dim_product
-            WHERE url = ? AND is_current = 1
+            WHERE url = ? 
+              AND ? BETWEEN start_date AND COALESCE(end_date, '9999-12-31')
         """;
 
         String getDateKey = """
@@ -42,6 +43,7 @@ public class LoadFactProductPriceDaily {
         """;
 
         Random random = new Random();
+        int count = 0;
 
         try (Connection stagingConn = StagingDBConfig.getConnection();
              Connection warehouseConn = WarehouseDBConfig.getConnection()) {
@@ -55,7 +57,6 @@ public class LoadFactProductPriceDaily {
             PreparedStatement psDateKey = warehouseConn.prepareStatement(getDateKey);
             PreparedStatement psInsert = warehouseConn.prepareStatement(insertFact);
 
-            int count = 0;
             int skipped = 0;
 
             while (rs.next()) {
@@ -64,6 +65,7 @@ public class LoadFactProductPriceDaily {
                 Timestamp crawlDate = rs.getTimestamp("crawl_date");
 
                 psProductKey.setString(1, url);
+                psProductKey.setDate(2, new java.sql.Date(crawlDate.getTime()));
                 ResultSet rsProduct = psProductKey.executeQuery();
                 if (!rsProduct.next()) {
                     skipped++;
@@ -71,7 +73,7 @@ public class LoadFactProductPriceDaily {
                 }
                 String productKey = rsProduct.getString("product_key");
 
-                psDateKey.setTimestamp(1, crawlDate);
+                psDateKey.setDate(1, new java.sql.Date(crawlDate.getTime()));
                 ResultSet rsDate = psDateKey.executeQuery();
                 if (!rsDate.next()) {
                     skipped++;
@@ -89,8 +91,9 @@ public class LoadFactProductPriceDaily {
                 psInsert.setTimestamp(5, new Timestamp(crawlDate.getTime()));
 
                 psInsert.addBatch();
+                count++;
 
-                if (++count % 200 == 0) {
+                if (count % 200 == 0) {
                     psInsert.executeBatch();
                     warehouseConn.commit();
                     LoggerUtil.log("Đã insert " + count + " fact records...");
@@ -104,15 +107,7 @@ public class LoadFactProductPriceDaily {
             LoggerUtil.log("   - Đã insert: " + count + " records");
             LoggerUtil.log("   - Bỏ qua (không tìm thấy key): " + skipped + " records");
         }
-    }
 
-    public static void main(String[] args) {
-        try {
-            load();
-            System.out.println("[DONE] LoadFactProductPriceDaily completed successfully.");
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("[ERROR] LoadFactProductPriceDaily failed: " + e.getMessage());
-        }
+        return count;
     }
 }
