@@ -11,7 +11,7 @@ import java.util.Date;
 
 public class LoadDimProductToWarehouse {
 
-    public static void load() throws Exception {
+    public static int load() throws Exception {
         LoggerUtil.log("=== [Script 4.2] Bắt đầu load dim_product với SCD Type 2 ===");
 
         String selectFromStaging = """
@@ -33,7 +33,7 @@ public class LoadDimProductToWarehouse {
         """;
 
         String insertNewVersion = """
-            INSERT INTO dim_product (
+            INSERT IGNORE INTO dim_product (
                 product_key, product_id, product_name, brand, 
                 current_price, original_price, url, image_url,
                 start_date, end_date, is_current
@@ -44,6 +44,8 @@ public class LoadDimProductToWarehouse {
         String getMaxProductId = """
             SELECT COALESCE(MAX(product_id), 0) as max_id FROM dim_product
         """;
+
+        int totalRecords = 0;
 
         try (Connection stagingConn = StagingDBConfig.getConnection();
              Connection warehouseConn = WarehouseDBConfig.getConnection()) {
@@ -140,20 +142,14 @@ public class LoadDimProductToWarehouse {
             }
 
             warehouseConn.commit();
+            totalRecords = newRecords + updatedRecords;
+
             LoggerUtil.log("✅ Load dim_product hoàn tất:");
             LoggerUtil.log("   - Sản phẩm mới: " + newRecords);
             LoggerUtil.log("   - Sản phẩm cập nhật (SCD Type 2): " + updatedRecords);
             LoggerUtil.log("   - Không thay đổi: " + unchangedRecords);
         }
-    }
 
-    public static void main(String[] args) {
-        try {
-            load();
-            System.out.println("[DONE] LoadDimProductToWarehouse completed successfully.");
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("[ERROR] LoadDimProductToWarehouse failed: " + e.getMessage());
-        }
+        return totalRecords;
     }
 }
