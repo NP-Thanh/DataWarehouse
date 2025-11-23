@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.date_dim;
 
 import com.opencsv.CSVReader;
 import vn.edu.hcmuaf.fit.db.DatabaseConfig;
+import vn.edu.hcmuaf.fit.db.WarehouseDBConfig;
 import vn.edu.hcmuaf.fit.util.LoggerUtil;
 
 import java.io.FileReader;
@@ -23,7 +24,7 @@ public class LoadDateDim {
         """;
 
         // Kết nối DB
-        try (Connection conn = DatabaseConfig.getConnection()) {
+        try (Connection conn = WarehouseDBConfig.getConnection()) {
 
             CSVReader reader = new CSVReader(new FileReader(csvFile));
             reader.readNext(); // bỏ header
