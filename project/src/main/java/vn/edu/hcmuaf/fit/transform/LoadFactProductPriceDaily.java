@@ -6,7 +6,6 @@ import vn.edu.hcmuaf.fit.util.LoggerUtil;
 
 import java.math.BigDecimal;
 import java.sql.*;
-import java.util.Random;
 
 public class LoadFactProductPriceDaily {
 
@@ -32,17 +31,12 @@ public class LoadFactProductPriceDaily {
         """;
 
         String insertFact = """
-            INSERT INTO fact_product_price_daily (
-                date_key, product_key, units_sold, total_revenue, crawl_date
+            INSERT IGNORE INTO fact_product_price_daily (
+                date_key, product_key, price, crawl_date
             )
-            VALUES (?, ?, ?, ?, ?)
-            ON DUPLICATE KEY UPDATE 
-                units_sold = VALUES(units_sold),
-                total_revenue = VALUES(total_revenue),
-                crawl_date = VALUES(crawl_date)
+            VALUES (?, ?, ?, ?)
         """;
 
-        Random random = new Random();
         int count = 0;
 
         try (Connection stagingConn = StagingDBConfig.getConnection();
@@ -50,62 +44,81 @@ public class LoadFactProductPriceDaily {
 
             warehouseConn.setAutoCommit(false);
 
-            PreparedStatement psSelect = stagingConn.prepareStatement(selectFromStaging);
-            ResultSet rs = psSelect.executeQuery();
+            try (Statement stmtSelect = stagingConn.createStatement();
+                 ResultSet rs = stmtSelect.executeQuery(selectFromStaging)) {
 
-            PreparedStatement psProductKey = warehouseConn.prepareStatement(getProductKey);
-            PreparedStatement psDateKey = warehouseConn.prepareStatement(getDateKey);
-            PreparedStatement psInsert = warehouseConn.prepareStatement(insertFact);
+                try (PreparedStatement psProductKey = warehouseConn.prepareStatement(getProductKey);
+                     PreparedStatement psDateKey = warehouseConn.prepareStatement(getDateKey);
+                     PreparedStatement psInsert = warehouseConn.prepareStatement(insertFact)) {
 
-            int skipped = 0;
+                    int skipped = 0;
+                    int batchCount = 0;
 
-            while (rs.next()) {
-                String url = rs.getString("url");
-                BigDecimal price = rs.getBigDecimal("price");
-                Timestamp crawlDate = rs.getTimestamp("crawl_date");
+                    while (rs.next()) {
+                        String url = rs.getString("url");
+                        BigDecimal price = rs.getBigDecimal("price");
+                        Timestamp crawlDate = rs.getTimestamp("crawl_date");
 
-                psProductKey.setString(1, url);
-                psProductKey.setDate(2, new java.sql.Date(crawlDate.getTime()));
-                ResultSet rsProduct = psProductKey.executeQuery();
-                if (!rsProduct.next()) {
-                    skipped++;
-                    continue;
-                }
-                String productKey = rsProduct.getString("product_key");
+                        psProductKey.setString(1, url);
+                        psProductKey.setDate(2, new java.sql.Date(crawlDate.getTime()));
 
-                psDateKey.setDate(1, new java.sql.Date(crawlDate.getTime()));
-                ResultSet rsDate = psDateKey.executeQuery();
-                if (!rsDate.next()) {
-                    skipped++;
-                    continue;
-                }
-                int dateKey = rsDate.getInt("date_key");
+                        String productKey = null;
+                        try (ResultSet rsProduct = psProductKey.executeQuery()) {
+                            if (rsProduct.next()) {
+                                productKey = rsProduct.getString("product_key");
+                            }
+                        }
 
-                int unitsSold = random.nextInt(50) + 1;
-                BigDecimal totalRevenue = price.multiply(new BigDecimal(unitsSold));
+                        if (productKey == null) {
+                            skipped++;
+                            continue;
+                        }
 
-                psInsert.setInt(1, dateKey);
-                psInsert.setString(2, productKey);
-                psInsert.setInt(3, unitsSold);
-                psInsert.setBigDecimal(4, totalRevenue);
-                psInsert.setTimestamp(5, new Timestamp(crawlDate.getTime()));
+                        psDateKey.setDate(1, new java.sql.Date(crawlDate.getTime()));
 
-                psInsert.addBatch();
-                count++;
+                        int dateKey = -1;
+                        try (ResultSet rsDate = psDateKey.executeQuery()) {
+                            if (rsDate.next()) {
+                                dateKey = rsDate.getInt("date_key");
+                            }
+                        }
 
-                if (count % 200 == 0) {
-                    psInsert.executeBatch();
+                        if (dateKey == -1) {
+                            skipped++;
+                            continue;
+                        }
+
+                        psInsert.setInt(1, dateKey);
+                        psInsert.setString(2, productKey);
+                        psInsert.setBigDecimal(3, price);
+                        psInsert.setTimestamp(4, new Timestamp(crawlDate.getTime()));
+
+                        psInsert.addBatch();
+                        count++;
+                        batchCount++;
+
+                        if (batchCount % 50 == 0) {
+                            psInsert.executeBatch();
+                            warehouseConn.commit();
+                            LoggerUtil.log("Đã insert " + count + " fact records...");
+                            psInsert.clearBatch();
+                        }
+                    }
+
+                    if (batchCount % 50 != 0) {
+                        psInsert.executeBatch();
+                    }
                     warehouseConn.commit();
-                    LoggerUtil.log("Đã insert " + count + " fact records...");
+
+                    LoggerUtil.log("✅ Load fact_product_price_daily hoàn tất:");
+                    LoggerUtil.log("   - Đã insert: " + count + " records (CHỈ GIÁ THẬT từ Cellphones.vn)");
+                    LoggerUtil.log("   - Bỏ qua (không tìm thấy key): " + skipped + " records");
                 }
             }
 
-            psInsert.executeBatch();
-            warehouseConn.commit();
-
-            LoggerUtil.log("✅ Load fact_product_price_daily hoàn tất:");
-            LoggerUtil.log("   - Đã insert: " + count + " records");
-            LoggerUtil.log("   - Bỏ qua (không tìm thấy key): " + skipped + " records");
+        } catch (Exception e) {
+            LoggerUtil.log("❌ Lỗi Script 4.3: " + e.getMessage());
+            throw e;
         }
 
         return count;
