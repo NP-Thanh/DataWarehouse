@@ -3,13 +3,13 @@ package vn.edu.hcmuaf.fit.util;
 import java.math.BigDecimal;
 
 public class CleanUtil {
-
+    //Làm sạch và chuẩn hóa tên product
     public static String cleanProductName(String raw) {
         if (raw == null) return null;
 
         String cleaned = raw;
 
-        // 1. Danh sách các chuỗi rác cố định
+        //Danh sách các chuỗi rác cố định
         String[] garbage = {
                 "Chỉ có tại CellphoneS",
                 "Chỉ bán online",
@@ -33,13 +33,13 @@ public class CleanUtil {
             cleaned = cleaned.replace(g, "");
         }
 
-        // 2. Xoá các ký tự phân tách dư thừa như | - /
+        //Xoá các ký tự phân tách dư thừa như | - /
         cleaned = cleaned.replaceAll("[|\\-/]", " ");
 
-        // 3. Xoá mọi nội dung trong ngoặc ()
+        //Xoá mọi nội dung trong ngoặc ()
         cleaned = cleaned.replaceAll("\\(.*?\\)", "");
 
-        // 4. Giữ dung lượng GB/TB đầu tiên, xoá các dung lượng sau
+        //Giữ dung lượng GB/TB đầu tiên, xoá các dung lượng sau
         java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("\\b\\d+\\s*(GB|TB)\\b", java.util.regex.Pattern.CASE_INSENSITIVE);
         java.util.regex.Matcher matcher = pattern.matcher(cleaned);
 
@@ -55,22 +55,25 @@ public class CleanUtil {
         matcher.appendTail(sb);
         cleaned = sb.toString();
 
-        // 5. Loại bỏ nhiều khoảng trắng thành 1 khoảng trắng
+        //Loại bỏ nhiều khoảng trắng thành 1 khoảng trắng
         cleaned = cleaned.replaceAll("\\s+", " ").trim();
 
         return cleaned;
     }
 
+    //Làm sạch và chuẩn hóa giá
     public static BigDecimal cleanPrice(String price) {
         if (price == null || price.isEmpty()) return BigDecimal.ZERO;
+        //Loại bỏ các kí tự không phải số
         String cleaned = price.replaceAll("[^0-9]", "");
         if (cleaned.isEmpty()) return BigDecimal.ZERO;
         return new BigDecimal(cleaned);
     }
 
+    //Làm sạch và chuẩn hóa ngày
     public static java.sql.Date cleanDate(String rawDate) {
         if (rawDate == null || rawDate.isEmpty()) return null;
-        // raw: "2025/11/20 10:35" -> "2025-11-20"
+        // chuẩn hóa ngày thành dạng yy-mm-dd
         String dateStr = rawDate.substring(0, 10).replace("/", "-");
         return java.sql.Date.valueOf(dateStr);
     }

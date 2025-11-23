@@ -14,21 +14,23 @@ import java.util.Date;
 
 public class LoadToDB {
     public static int load(String csvFile) throws Exception {
+        // SQL insert dữ liệu vào table
         String sql = """
             INSERT INTO stg_products_raw (product_name, brand, price, original_price, url, image_url)
             VALUES (?, ?, ?, ?, ?, ?)
         """;
+        // Biến đếm số dòng dữ liệu đã được thực thi
         int count = 0;
 
-        //2. Kết nối đến DB
+        //Kết nối đến DB
         try (Connection conn = DatabaseConfig.getConnection()) {
-            //3. Đọc file csv
+            //Đọc file csv
             CSVReader reader = new CSVReader(new FileReader(csvFile));
             reader.readNext(); // bỏ header
-            //4. Khởi tạo lệnh insert với Batch Processing
+            //Khởi tạo lệnh insert với Batch Processing
             PreparedStatement ps = conn.prepareStatement(sql);
             String[] nextLine;
-            //5. Đọc từng dòng csv và thêm vào batch
+            //Đọc từng dòng csv và thêm vào batch
             while ((nextLine = reader.readNext()) != null) {
                 ps.setString(1, nextLine[0]);
                 ps.setString(2, nextLine[1]);
@@ -39,7 +41,7 @@ public class LoadToDB {
                 ps.addBatch();
                 count++;
             }
-            //6. Thực thi batch
+            //Thực thi batch
             ps.executeBatch();
             LoggerUtil.log("Import hoàn tất, tổng: " + count + " bản ghi.");
         } //2.1 Đóng kết nối nếu lỗi

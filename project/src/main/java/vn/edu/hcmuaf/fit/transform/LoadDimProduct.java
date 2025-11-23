@@ -8,31 +8,35 @@ import java.sql.*;
 public class LoadDimProduct {
 
     public static int loadDim() throws Exception {
+        // SQL select dữ liệu từ bảng stg_products_clean
         String selectClean = """
                     SELECT DISTINCT product_name, brand, url, image_url
                     FROM stg_products_clean
                 """;
-
+        // SQL dùng để kiểm trả dữ liệu có bị trùng ở bảng dim_product không
         String checkExist = """
                     SELECT product_key
                     FROM dim_product
                     WHERE product_name = ? AND brand = ?
                 """;
-
+        // SQL insert dữ liệu vào bảng dim_product
         String insertDim = """
                     INSERT INTO dim_product (product_name, brand, url, image_url)
                     VALUES (?, ?, ?, ?)
                     ON DUPLICATE KEY UPDATE product_key = product_key
                 """;
+        // Biến đếm số dòng dữ liệu đã được thực thi
         int count = 0;
-
+        // Kết nối tới DB
         try (Connection conn = DatabaseConfig.getConnection()) {
+            // Lấy dữ liệu từ bảng stg_products_clean
             PreparedStatement psSelect = conn.prepareStatement(selectClean);
             ResultSet rs = psSelect.executeQuery();
-
+            // Kiểm tra trùng dữ liệu ở bảng dim
             PreparedStatement psCheck = conn.prepareStatement(checkExist);
+            // Insert dữ liệu vào bảng dim
             PreparedStatement psInsert = conn.prepareStatement(insertDim);
-
+            // Duyệt từng dòng
             while (rs.next()) {
                 String name = rs.getString("product_name");
                 String brand = rs.getString("brand");
@@ -53,7 +57,7 @@ public class LoadDimProduct {
                     count++;
                 }
             }
-
+            // Thực thi batch
             psInsert.executeBatch();
             LoggerUtil.log("Dim product inserted: " + count + " new records.");
         }

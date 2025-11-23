@@ -9,32 +9,31 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class LoadCleanToDB {
-
+    //CLEAN
     public static int load() throws Exception {
-
+        // SQL select dữ liệu từ bảng stg_products_raw
         String selectRaw = """
             SELECT product_name, brand, price, original_price, url, image_url, crawl_date
             FROM stg_products_raw
         """;
-
+        // SQL insert dữ liệu vào bảng stg_products_clean
         String insertClean = """
             INSERT INTO stg_products_clean
             (product_name, brand, price, original_price, url, image_url, crawl_date)
             VALUES (?, ?, ?, ?, ?, ?, ?)
         """;
-
+        // Biến đếm số dòng dữ liệu đã được thực thi
         int count = 0;
-        int successfulInserts = 0;
-
+        // Kết nối đến DB
         try (Connection conn = DatabaseConfig.getConnection()) {
-
+            // Lấy dữ liệu từ bảng stg_products_raw
             PreparedStatement psSelect = conn.prepareStatement(selectRaw);
             ResultSet rs = psSelect.executeQuery();
-
+            // Insert dữ liệu vào bảng stg_products_clean
             PreparedStatement psInsert = conn.prepareStatement(insertClean);
-
+            // Thực thi từng dòng
             while (rs.next()) {
-                // Làm sạch dữ liệu bằng CleanUtil
+                // Làm sạch và chuẩn hóa data
                 String name = CleanUtil.cleanProductName(rs.getString("product_name"));
                 String brand = rs.getString("brand");
                 java.math.BigDecimal price = CleanUtil.cleanPrice(rs.getString("price"));
@@ -54,7 +53,7 @@ public class LoadCleanToDB {
                 psInsert.addBatch();
                 count++;
             }
-
+            // Thực thi batch
             psInsert.executeBatch();
             LoggerUtil.log("Clean hoàn tất: " + count + " bản ghi.");
         }

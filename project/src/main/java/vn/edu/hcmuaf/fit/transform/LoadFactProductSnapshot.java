@@ -9,40 +9,43 @@ import java.sql.*;
 public class LoadFactProductSnapshot {
 
     public static int loadFactSnapshot() throws Exception {
-
+        // SQL select dữ liệu từ bảng stg_products_clean
         String selectClean = """
             SELECT product_name, brand, price, original_price, crawl_date
             FROM stg_products_clean
         """;
-
+        // SQL select key product từ bảng dim product
         String selectProductKey = """
             SELECT product_key
             FROM dim_product
             WHERE product_name = ? AND brand = ?
         """;
-
+        // SQL select key date từ bảng dim date
         String selectDateKey = """
             SELECT date_key
             FROM dim_date
             WHERE full_date = ?
         """;
-
+        // SQL insert dữ liệu vào bảng fact_product_snapshot
         String insertFact = """
             INSERT INTO fact_product_snapshot (product_key, price, original_price, date_key, crawl_date)
             VALUES (?, ?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE price = VALUES(price), original_price = VALUES(original_price)
         """;
-
+        // Biến đếm số dòng dữ liệu đã được thực thi
         int count=0;
-
+        // Kết nối tới DB
         try (Connection conn = DatabaseConfig.getConnection()) {
+            // Lấy dữ liệu từ bảng stg_products_clean
             PreparedStatement psSelect = conn.prepareStatement(selectClean);
             ResultSet rs = psSelect.executeQuery();
-
+            // Lấy key product
             PreparedStatement psProductKey = conn.prepareStatement(selectProductKey);
+            // Lấy key date
             PreparedStatement psDateKey = conn.prepareStatement(selectDateKey);
+            // Insert dữ liệu vào bảng fact_product_snapshot
             PreparedStatement psInsert = conn.prepareStatement(insertFact);
-
+            // Duyệt từng dòng
             while (rs.next()) {
                 String name = rs.getString("product_name");
                 String brand = rs.getString("brand");
@@ -73,7 +76,7 @@ public class LoadFactProductSnapshot {
                 psInsert.addBatch();
                 count++;
             }
-
+            // Thực thi batch
             psInsert.executeBatch();
             LoggerUtil.log("Fact product snapshot inserted: " + count + " records.");
         }
