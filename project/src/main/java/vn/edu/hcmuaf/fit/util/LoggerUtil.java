@@ -17,6 +17,7 @@ public class LoggerUtil {
 
     public static final int SOURCE_CELLPHONES_ID = 1;
     public static final String OPERATOR_ETL_JOB = "ETL_Scheduler_01";
+    private static final StringBuilder logBuilder = new StringBuilder();
 
     private static final ThreadLocal<String> currentRunId = new ThreadLocal<>();
     private static final String DATE_FORMAT = "dd_MM_yy";
@@ -26,6 +27,7 @@ public class LoggerUtil {
         String runId = currentRunId.get() != null ? currentRunId.get().substring(0, 8) : "N/A";
         String full = "[" + time + "] [RUN_ID:" + runId + "] " + message;
         System.out.println(full);
+        logBuilder.append(full).append("\n");
     }
 
     public static String startProcess(int sourceId, String operator) {
@@ -205,5 +207,9 @@ public class LoggerUtil {
             log("Lỗi lấy last_run_time: " + e.getMessage());
         }
         return null;
+    }
+    // Hàm này để xuất toàn bộ log ra file (giống hệt mấy bạn 10 điểm)
+    public static String getFullLog() {
+        return logBuilder.toString();
     }
 }
