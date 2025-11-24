@@ -3,7 +3,7 @@ package vn.edu.hcmuaf.fit;
 import vn.edu.hcmuaf.fit.crawl.Extract;
 import vn.edu.hcmuaf.fit.db.DatabaseConfig;
 import vn.edu.hcmuaf.fit.load_data.LoadToDB;
-import vn.edu.hcmuaf.fit.mart.LoadToMart;                 // Script 6 của anh đây nè
+import vn.edu.hcmuaf.fit.mart.LoadToMart;
 import vn.edu.hcmuaf.fit.transform.*;
 import vn.edu.hcmuaf.fit.util.LoggerUtil;
 
@@ -36,13 +36,12 @@ public class Main {
             CreateAggregateDailySummary.load();
             LoggerUtil.log("Script 5 HOÀN TẤT");
 
-            // ── Script 6: Load to Data Mart (FINAL - CỦA RIÊNG ANH) ───
+            // ── Script 6: Load to Data Mart
             LoggerUtil.log("=== SCRIPT 6: LOAD TO DATA MART (PRESENTATION LAYER) ===");
-            LoadToMart.load();           // ← Đây là hàm static load() em thêm cho anh
-            LoggerUtil.log("Script 6 HOÀN TẤT - DATA MART SẴN SÀNG CHO BI TOOL!");
+            LoadToMart.load();
+            LoggerUtil.log("Script 6 HOÀN TẤT - DATA MART SẴN SÀNG");
 
             LoggerUtil.log("=== TẤT CẢ 6 SCRIPT HOÀN THÀNH 100% ===");
-            LoggerUtil.log("→ Anh có thể mở Power BI connect thẳng data_mart mà khoe thầy cô rồi đó");
 
         } catch (Exception e) {
             LoggerUtil.log("LỖI PIPELINE: " + e.getMessage());

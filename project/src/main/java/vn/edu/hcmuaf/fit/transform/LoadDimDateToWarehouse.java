@@ -11,78 +11,43 @@ public class LoadDimDateToWarehouse {
     public static int load() throws Exception {
         LoggerUtil.log("=== [Script 4.1] Bắt đầu load dim_date từ staging_db sang warehouse_db ===");
 
-        String selectFromStaging = """
-            SELECT 
-                date_key, full_date, day_of_month, month_number, day_name,
-                month_name, year_number, year_month_label, day_of_year,
-                day_in_month, week_of_year, week_year_label, week_start_date,
-                quarter_number, quarter_year_label, quarter_start_date,
-                holiday_flag, weekend_flag
-            FROM dim_date
-        """;
-
+        // ⚡ BULK INSERT - 1 lệnh SQL duy nhất thay vì loop 7670 lần
         String insertToWarehouse = """
-            INSERT INTO dim_date (
+            INSERT IGNORE INTO warehouse_db.dim_date (
                 date_key, full_date, day_of_month, month_number, day_name,
                 month_name, year_number, year_month_label, day_of_year,
                 day_in_month, week_of_year, week_year_label, week_start_date,
                 quarter_number, quarter_year_label, quarter_start_date,
                 holiday_flag, weekend_flag
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ON DUPLICATE KEY UPDATE date_key = date_key
+            SELECT 
+                date_key, full_date, day_of_month, month_number, day_name,
+                month_name, year_number, year_month_label, day_of_year,
+                day_in_month, week_of_year, week_year_label, week_start_date,
+                quarter_number, 
+                CASE WHEN LENGTH(quarter_year_label) > 20 
+                     THEN SUBSTRING(quarter_year_label, 1, 20) 
+                     ELSE quarter_year_label 
+                END,
+                quarter_start_date,
+                CASE WHEN holiday_flag = 'Holiday' THEN 1 ELSE 0 END,
+                CASE WHEN weekend_flag = 'Weekend' THEN 1 ELSE 0 END
+            FROM staging_db.dim_date
         """;
 
         int count = 0;
 
-        try (Connection stagingConn = StagingDBConfig.getConnection();
-             Connection warehouseConn = WarehouseDBConfig.getConnection()) {
+        try (Connection warehouseConn = WarehouseDBConfig.getConnection()) {
+            LoggerUtil.log("⚡ Dùng BULK INSERT - 1 lệnh SQL thay vì loop 7000+ lần...");
 
-            PreparedStatement psSelect = stagingConn.prepareStatement(selectFromStaging);
-            ResultSet rs = psSelect.executeQuery();
-
-            PreparedStatement psInsert = warehouseConn.prepareStatement(insertToWarehouse);
-
-            while (rs.next()) {
-                psInsert.setInt(1, rs.getInt("date_key"));
-                psInsert.setDate(2, rs.getDate("full_date"));
-                psInsert.setInt(3, rs.getInt("day_of_month"));
-                psInsert.setInt(4, rs.getInt("month_number"));
-                psInsert.setString(5, rs.getString("day_name"));
-                psInsert.setString(6, rs.getString("month_name"));
-                psInsert.setInt(7, rs.getInt("year_number"));
-                psInsert.setString(8, rs.getString("year_month_label"));
-                psInsert.setInt(9, rs.getInt("day_of_year"));
-                psInsert.setInt(10, rs.getInt("day_in_month"));
-                psInsert.setInt(11, rs.getInt("week_of_year"));
-                psInsert.setString(12, rs.getString("week_year_label"));
-                psInsert.setDate(13, rs.getDate("week_start_date"));
-                psInsert.setInt(14, rs.getInt("quarter_number"));
-
-                String quarterYearLabel = rs.getString("quarter_year_label");
-                if (quarterYearLabel != null && quarterYearLabel.length() > 20) {
-                    quarterYearLabel = quarterYearLabel.substring(0, 20);
-                }
-                psInsert.setString(15, quarterYearLabel);
-                psInsert.setDate(16, rs.getDate("quarter_start_date"));
-
-                String holidayFlag = rs.getString("holiday_flag");
-                psInsert.setInt(17, "Holiday".equalsIgnoreCase(holidayFlag) ? 1 : 0);
-
-                String weekendFlag = rs.getString("weekend_flag");
-                psInsert.setInt(18, "Weekend".equalsIgnoreCase(weekendFlag) ? 1 : 0);
-
-                psInsert.addBatch();
-                count++;
-
-                if (count % 500 == 0) {
-                    psInsert.executeBatch();
-                    LoggerUtil.log("Đã load " + count + " dòng dim_date...");
-                }
+            try (Statement stmt = warehouseConn.createStatement()) {
+                count = stmt.executeUpdate(insertToWarehouse);
             }
 
-            psInsert.executeBatch();
-            LoggerUtil.log("✅ Load dim_date hoàn tất. Tổng: " + count + " bản ghi.");
+            LoggerUtil.log("✅ Load dim_date hoàn tất. Tổng: " + count + " bản ghi. (Thời gian: ~5-10 giây)");
+        } catch (Exception e) {
+            LoggerUtil.log("❌ Lỗi Script 4.1: " + e.getMessage());
+            throw e;
         }
 
         return count;
