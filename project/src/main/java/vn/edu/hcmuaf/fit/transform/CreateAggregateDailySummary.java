@@ -10,10 +10,10 @@ public class CreateAggregateDailySummary {
     public static int load() throws Exception {
         LoggerUtil.log("=== [Script 5.2a] Tạo bảng aggregate agg_daily_summary (GIÁ THẬT) ===");
 
-        String dropTable = "DROP TABLE IF EXISTS agg_daily_summary";
+        String dropTable = "DROP TABLE IF EXISTS warehouse_db.agg_daily_summary";
 
         String createTable = """
-            CREATE TABLE agg_daily_summary (
+            CREATE TABLE warehouse_db.agg_daily_summary (
                 agg_daily_summary_key INT AUTO_INCREMENT PRIMARY KEY,
                 full_date DATE NOT NULL UNIQUE,
                 num_products_tracked INT DEFAULT 0,
@@ -24,41 +24,39 @@ public class CreateAggregateDailySummary {
         """;
 
         String createAndLoadAgg = """
-            INSERT INTO agg_daily_summary (full_date, num_products_tracked, avg_price, min_price, max_price)
+            INSERT INTO warehouse_db.agg_daily_summary (full_date, num_products_tracked, avg_price, min_price, max_price)
             SELECT 
                 d.full_date,
-                COUNT(DISTINCT f.product_key) as num_products_tracked,
+                COUNT(DISTINCT f.product_id) as num_products_tracked,
                 AVG(f.price) as avg_price,
                 MIN(f.price) as min_price,
                 MAX(f.price) as max_price
-            FROM fact_product_price_daily f
-            INNER JOIN dim_date d ON f.date_key = d.date_key
+            FROM warehouse_db.fact_product_price_daily f
+            INNER JOIN warehouse_db.dim_date d ON f.date_key = d.date_key
             GROUP BY d.full_date
         """;
 
         int count = 0;
 
         try (Connection warehouseConn = WarehouseDBConfig.getConnection()) {
-            warehouseConn.setAutoCommit(false);
+            LoggerUtil.log("⚡ Dùng PURE SQL - DROP → CREATE → INSERT (NO JAVA)...");
 
-            // Drop existing table to ensure correct schema
-            try (PreparedStatement psDrop = warehouseConn.prepareStatement(dropTable)) {
-                psDrop.executeUpdate();
+            try (Statement stmt = warehouseConn.createStatement()) {
+                stmt.executeUpdate(dropTable);
             }
 
-            // Create fresh table
-            try (PreparedStatement psCreateTable = warehouseConn.prepareStatement(createTable)) {
-                psCreateTable.executeUpdate();
+            try (Statement stmt = warehouseConn.createStatement()) {
+                stmt.executeUpdate(createTable);
             }
 
-            // Insert aggregated data
-            try (PreparedStatement psInsert = warehouseConn.prepareStatement(createAndLoadAgg)) {
-                int result = psInsert.executeUpdate();
-                count = result;
+            try (Statement stmt = warehouseConn.createStatement()) {
+                count = stmt.executeUpdate(createAndLoadAgg);
             }
 
-            warehouseConn.commit();
             LoggerUtil.log("✅ Tạo và load agg_daily_summary hoàn tất: " + count + " rows (avg/min/max price)");
+        } catch (Exception e) {
+            LoggerUtil.log("❌ Lỗi Script 5.2: " + e.getMessage());
+            throw e;
         }
 
         return count;
