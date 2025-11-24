@@ -27,26 +27,26 @@ public class LoadToMart {
         LoggerUtil.startProcess(LoggerUtil.SOURCE_CELLPHONES_ID, "Load to Data Mart");
 
         try {
-            // 1. Xuất 2 file CSV tổng hợp
-            // 1.1 aggregate_daily_summary_[dd_MM_yyyy].csv
-            // 1.2 aggregate_daily_sales_[dd_MM_yyyy].csv
+            // 6.1. Xuất 2 file CSV tổng hợp
+            // 6.1.1 aggregate_daily_summary_[dd_MM_yyyy].csv
+            // 6.1.2 aggregate_daily_sales_[dd_MM_yyyy].csv
             exportAggregateToCSV();
 
-            // 2. Tạo và nạp dữ liệu cho 5 bảng Mart trong schema data_mart
-            // 2.1 Tạo bảng mart_daily_summary
+            // 6.2. Tạo và nạp dữ liệu cho 5 bảng Mart trong schema data_mart
+            // 6.2.1 Tạo bảng mart_daily_summary
             createAndLoadMartDailySummary();
-            // 2.2 Tạo bảng mart_daily_sales
+            // 6.2.2 Tạo bảng mart_daily_sales
             createAndLoadMartDailySales();
-            // 2.3 Tạo bảng mart_product_summary → Giá trung bình 30 ngày gần nhất
+            // 6.2.3 Tạo bảng mart_product_summary → Giá trung bình 30 ngày gần nhất
             createAndLoadMartProductSummary();
-            // 2.4 Tạo bảng mart_top10_daily_change → Top 10 thay đổi giá mạnh nhất
+            // 6.2.4 Tạo bảng mart_top10_daily_change → Top 10 thay đổi giá mạnh nhất
             createAndLoadTop10DailyChange();
-            // 2.5 Tạo bảng mart_today_top_price → Top 20 sản phẩm đắt nhất hôm nay
+            // 6.2.5 Tạo bảng mart_today_top_price → Top 20 sản phẩm đắt nhất hôm nay
             createAndLoadTodayTopPrice();
 
-            // 3. Sao chép 2 bảng chiều từ warehouse_db sang data_mart
-            // 3.1 dim_date
-            // 3.2 dim_product
+            // 6.3. Sao chép 2 bảng chiều từ warehouse_db sang data_mart
+            // 6.3.1 dim_date
+            // 6.3.2 dim_product
             copyDimDate();
             copyDimProduct();
 
@@ -59,16 +59,16 @@ public class LoadToMart {
             throw e;
         }
     }
-    // 1. Xuất 2 file CSV tổng hợp
-    // 1.1 aggregate_daily_summary_[dd_MM_yyyy].csv
-    // 1.2 aggregate_daily_sales_[dd_MM_yyyy].csv
+    // 6.1. Xuất 2 file CSV tổng hợp
+    // 6.1.1 aggregate_daily_summary_[dd_MM_yyyy].csv
+    // 6.1.2 aggregate_daily_sales_[dd_MM_yyyy].csv
     private static void exportAggregateToCSV() throws Exception {
         LoggerUtil.log("Đang xuất 2 file CSV tổng hợp...");
         exportDailySummaryCSV(); // 1.1
         exportDailySalesCSV(); // 1.2
         LoggerUtil.log("Xuất CSV xong rồi ạ!");
     }
-    // 1.1 Xuất file aggregate_daily_summary (tổng hợp theo ngày)
+    // 6.1.1 Xuất file aggregate_daily_summary (tổng hợp theo ngày)
     private static void exportDailySummaryCSV() throws Exception {
         String sql = """
                 SELECT d.full_date,
@@ -83,7 +83,7 @@ public class LoadToMart {
         writeCsv(sql, file, new String[]{"full_date", "num_products", "avg_price", "min_price", "max_price"});
     }
 
-    // 1.2 Xuất file aggregate_daily_sales (chi tiết từng sản phẩm theo ngày)
+    // 6.1.2 Xuất file aggregate_daily_sales (chi tiết từng sản phẩm theo ngày)
     private static void exportDailySalesCSV() throws Exception {
         String sql = """
                 SELECT d.full_date, p.product_name, p.brand,
@@ -99,9 +99,9 @@ public class LoadToMart {
         writeCsv(sql, file, new String[]{"full_date", "product_name", "brand", "avg_price", "min_price", "max_price"});
     }
 
-    // 2. Tạo và nạp dữ liệu cho 5 bảng Mart trong schema data_mart
+    // 6.2. Tạo và nạp dữ liệu cho 5 bảng Mart trong schema data_mart
 
-    // 2.1 Tạo bảng mart_daily_summary → Tổng hợp giá theo ngày
+    // 6.2.1 Tạo bảng mart_daily_summary → Tổng hợp giá theo ngày
     private static void createAndLoadMartDailySummary() throws Exception {
         execute("DROP TABLE IF EXISTS data_mart.mart_daily_summary",
                 "CREATE TABLE data_mart.mart_daily_summary (" +
@@ -123,7 +123,7 @@ public class LoadToMart {
                 "mart_daily_summary");
         LoggerUtil.log("ĐÃ TẠO VÀ LOAD BẢNG mart_daily_summary");
     }
-    // 2.2 Tạo bảng mart_daily_sales → Chi tiết giá từng sản phẩm theo ngày
+    // 6.2.2 Tạo bảng mart_daily_sales → Chi tiết giá từng sản phẩm theo ngày
     private static void createAndLoadMartDailySales() throws Exception {
         execute("DROP TABLE IF EXISTS data_mart.mart_daily_sales",
                 "CREATE TABLE data_mart.mart_daily_sales (" +
@@ -140,7 +140,7 @@ public class LoadToMart {
                 "mart_daily_sales");
     }
 
-    // 2.3 Tạo bảng mart_product_summary → Giá trung bình 30 ngày của từng sản phẩm
+    // 6.2.3 Tạo bảng mart_product_summary → Giá trung bình 30 ngày của từng sản phẩm
     private static void createAndLoadMartProductSummary() throws Exception {
         execute("DROP TABLE IF EXISTS data_mart.mart_product_summary",
                 "CREATE TABLE data_mart.mart_product_summary (" +
@@ -154,7 +154,7 @@ public class LoadToMart {
                 "mart_product_summary");
     }
 
-    // 2.4 Tạo bảng mart_top10_daily_change → Top 10 sản phẩm thay đổi giá mạnh nhất
+    // 6.2.4 Tạo bảng mart_top10_daily_change → Top 10 sản phẩm thay đổi giá mạnh nhất
     private static void createAndLoadTop10DailyChange() throws Exception {
         String insertSql = """
                 INSERT INTO data_mart.mart_top10_daily_change
@@ -227,7 +227,7 @@ public class LoadToMart {
         );
     }
 
-    // 2.5 Tạo bảng mart_today_top_price → Top 20 sản phẩm đắt nhất hôm nay
+    // 6.2.5 Tạo bảng mart_today_top_price → Top 20 sản phẩm đắt nhất hôm nay
     private static void createAndLoadTodayTopPrice() throws Exception {
         execute("DROP TABLE IF EXISTS data_mart.mart_today_top_price",
                 """
@@ -262,16 +262,16 @@ public class LoadToMart {
         LoggerUtil.log("ĐÃ TẠO BẢNG THỨ 5: mart_today_top_price – TOP 20 SẢN PHẨM ĐẮT NHẤT HÔM NAY");
     }
 
-    // 3. Sao chép 2 bảng chiều từ warehouse_db sang data_mart
+    // 6.3. Sao chép 2 bảng chiều từ warehouse_db sang data_mart
 
-    // 3.1 Sao chép bảng dim_date
+    // 6.3.1 Sao chép bảng dim_date
     private static void copyDimDate() throws Exception {
         execute("DROP TABLE IF EXISTS data_mart.dim_date",
                 "CREATE TABLE data_mart.dim_date LIKE warehouse_db.dim_date",
                 "INSERT INTO data_mart.dim_date SELECT * FROM warehouse_db.dim_date",
                 "dim_date");
     }
-    // 3.2 Sao chép bảng dim_product
+    // 6.3.2 Sao chép bảng dim_product
     private static void copyDimProduct() throws Exception {
         execute("DROP TABLE IF EXISTS data_mart.dim_product",
                 "CREATE TABLE data_mart.dim_product LIKE warehouse_db.dim_product",
@@ -305,7 +305,7 @@ public class LoadToMart {
         }
     }
 
-    // 5. Xuất file log chi tiết
+    // 6.5. Xuất file log chi tiết
     private static void exportLogToFile() {
         String logDir = "data/log";
         String logFileName = "Script6_LoadToMart_" + DATE_STR + ".log";
@@ -320,7 +320,7 @@ public class LoadToMart {
         }
     }
 
-    // 4. Tạo Dashboard phân tích
+    // 6.4. Tạo Dashboard phân tích
     private static void generateDashboard() {
         LoggerUtil.log("ĐANG TẠO DASHBOARD – ĐỦ 7 BẢNG TRONG DATA MART");
 
@@ -334,7 +334,7 @@ public class LoadToMart {
 
         try (Connection conn = DataMartDBConfig.getConnection()) {
 
-            // 1. Xu hướng giá
+            //  Xu hướng giá
             try (PreparedStatement ps = conn.prepareStatement(
                     "SELECT DATE_FORMAT(full_date, '%d/%m') AS d, avg_price FROM data_mart.mart_daily_summary ORDER BY full_date DESC LIMIT 30");
                  ResultSet rs = ps.executeQuery()) {
@@ -348,7 +348,7 @@ public class LoadToMart {
                 if (trendLabels.length() == 0) { trendLabels.append("'Chưa có'"); trendData.append("0"); }
             }
 
-            // 2. Top 10 thay đổi giá
+            //  Top 10 thay đổi giá
             try (PreparedStatement ps = conn.prepareStatement(
                     "SELECT top_rank, product_name, brand, prev_price, current_price, percent_change FROM data_mart.mart_top10_daily_change ORDER BY top_rank");
                  ResultSet rs = ps.executeQuery()) {
@@ -369,7 +369,7 @@ public class LoadToMart {
                 }
             }
 
-            // 3. Giá TB 30 ngày
+            //  Giá TB 30 ngày
             try (PreparedStatement ps = conn.prepareStatement(
                     "SELECT product_name, brand, FORMAT(avg_price_30days, 0) AS price FROM data_mart.mart_product_summary ORDER BY avg_price_30days DESC LIMIT 20");
                  ResultSet rs = ps.executeQuery()) {
@@ -379,7 +379,7 @@ public class LoadToMart {
                 }
             }
 
-            // 4. Top 20 đắt nhất hôm nay – từ bảng mart_today_top_price
+            //  Top 20 đắt nhất hôm nay – từ bảng mart_today_top_price
             try (PreparedStatement ps = conn.prepareStatement(
                     "SELECT rank_no, product_name, brand, FORMAT(today_price, 0) AS price FROM data_mart.mart_today_top_price ORDER BY rank_no");
                  ResultSet rs = ps.executeQuery()) {
@@ -395,7 +395,7 @@ public class LoadToMart {
                 }
             }
 
-            // 5. Biểu đồ theo hãng
+            //  Biểu đồ theo hãng
             try (PreparedStatement ps = conn.prepareStatement(
                     "SELECT brand, COUNT(*) c FROM data_mart.dim_product GROUP BY brand ORDER BY c DESC LIMIT 8");
                  ResultSet rs = ps.executeQuery()) {
@@ -467,10 +467,10 @@ public class LoadToMart {
             LoggerUtil.log("=                     Ngày chạy: " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()) + "                     =");
             LoggerUtil.log("======================================================================");
 
-            // 1. Xuất 2 file CSV tổng hợp
+            //  Xuất 2 file CSV tổng hợp
             load();                    // ← toàn bộ quy trình nằm trong hàm load()
-            exportLogToFile();         // 5. Xuất file log chi tiết
-            generateDashboard();       // 4. Tạo Dashboard HTML
+            exportLogToFile();         // 6.5. Xuất file log chi tiết
+            generateDashboard();       // 6.4. Tạo Dashboard HTML
 
             System.out.println("\nHOÀN TẤT 100% – 7 BẢNG TRONG data_mart!");
             System.out.println("Dashboard: dashboard/ui_mart.html");
