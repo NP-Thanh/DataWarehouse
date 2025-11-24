@@ -8,20 +8,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
 public class LoggerUtil {
 
-    public static final int SOURCE_CELLPHONES_ID = 1; // ID cố định cho nguồn Cellphones
+    public static final int SOURCE_CELLPHONES_ID = 1;
     public static final String OPERATOR_ETL_JOB = "ETL_Scheduler_01";
-    public static final String PATH_CONFIG = "T:/DataWarehouse_github/DataWarehouse/project/"; // Folder lưu file config theo ngày
 
     private static final ThreadLocal<String> currentRunId = new ThreadLocal<>();
-
     private static final String DATE_FORMAT = "dd_MM_yy";
-
 
     public static void log(String message) {
         String time = new SimpleDateFormat("HH:mm:ss").format(new Date());
@@ -32,7 +30,7 @@ public class LoggerUtil {
 
     public static String startProcess(int sourceId, String operator) {
         String runId = UUID.randomUUID().toString();
-        currentRunId.set(runId); // Lưu run_id vào ThreadLocal
+        currentRunId.set(runId);
 
         String sql = """
             INSERT INTO log (run_id, source_id, start_time, status, operator)
@@ -50,7 +48,6 @@ public class LoggerUtil {
             log("Tiến trình BẮT ĐẦU với Run ID: " + runId);
         } catch (SQLException e) {
             log("Lỗi khi khởi tạo tiến trình vào Control DB: " + e.getMessage());
-            // Trả về null để báo hiệu lỗi
             currentRunId.remove();
             return null;
         }
@@ -81,7 +78,6 @@ public class LoggerUtil {
 
             if ("SUCCESS".equals(status)) {
                 log("Tiến trình KẾT THÚC THÀNH CÔNG. Bản ghi: " + recordCount);
-                // Cập nhật last_run_time cho bảng source nếu là SUCCESS
                 updateSourceLastRunTime(runId, ControlDBConfig.getConnection());
             } else {
                 log("Tiến trình KẾT THÚC THẤT BẠI. Lỗi: " + errorMessage);
@@ -89,7 +85,71 @@ public class LoggerUtil {
         } catch (SQLException e) {
             log("Lỗi khi cập nhật kết quả tiến trình vào Control DB: " + e.getMessage());
         } finally {
-            currentRunId.remove(); // Xóa run_id khỏi ThreadLocal khi job kết thúc
+            currentRunId.remove();
+        }
+    }
+
+    /**
+     * Tạo bảng script_log nếu chưa tồn tại
+     */
+    public static void createScriptLogTableIfNotExists() {
+        String sql = """
+            CREATE TABLE IF NOT EXISTS script_log (
+                script_log_id INT AUTO_INCREMENT PRIMARY KEY,
+                run_id VARCHAR(36) NOT NULL,
+                script_step VARCHAR(10) NOT NULL,
+                script_name VARCHAR(100) NOT NULL,
+                record_count INT DEFAULT 0,
+                duration_ms BIGINT DEFAULT 0,
+                status VARCHAR(20) NOT NULL,
+                error_message TEXT,
+                log_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                INDEX idx_run_id (run_id),
+                INDEX idx_script_step (script_step),
+                INDEX idx_log_time (log_time),
+                FOREIGN KEY (run_id) REFERENCES log(run_id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+        """;
+
+        try (Connection conn = ControlDBConfig.getConnection();
+             Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate(sql);
+            log("✅ Bảng script_log đã được kiểm tra/tạo");
+        } catch (SQLException e) {
+            log("⚠️ Không thể tạo bảng script_log: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Ghi log chi tiết cho từng bước con của script (4.1, 4.2, 4.3, 5.1, 5.2)
+     */
+    public static void logStep(String scriptStep, String scriptName, int recordCount, long duration, String status, String errorMessage) {
+        String runId = currentRunId.get();
+        if (runId == null) {
+            log("⚠️ Không có Run ID - bước " + scriptStep + " không được ghi log vào database");
+            return;
+        }
+
+        String sql = """
+            INSERT INTO script_log (run_id, script_step, script_name, record_count, duration_ms, status, error_message, log_time)
+            VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
+        """;
+
+        try (Connection conn = ControlDBConfig.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, runId);
+            ps.setString(2, scriptStep);
+            ps.setString(3, scriptName);
+            ps.setInt(4, recordCount);
+            ps.setLong(5, duration);
+            ps.setString(6, status);
+            ps.setString(7, errorMessage != null ? errorMessage : "");
+            ps.executeUpdate();
+
+            log("📝 Script " + scriptStep + " ghi log: " + status + " (" + recordCount + " records, " + duration + "ms)");
+        } catch (SQLException e) {
+            log("⚠️ Lỗi ghi log bước " + scriptStep + ": " + e.getMessage());
         }
     }
 
@@ -112,22 +172,15 @@ public class LoggerUtil {
         String configFileName = dateStr + "_config.txt";
         String fullPath = configFileName;
 
-        // 1. Lấy thông tin cần thiết (ví dụ: last_run_time) từ Control DB
         String lastRunTime = getLastRunTime(SOURCE_CELLPHONES_ID);
 
-        // 2. Ghi nội dung vào file
         try (FileWriter fw = new FileWriter(fullPath)) {
             fw.write("# --- ETL Configuration File for Cellphones --- \n");
             fw.write("# Generated on: " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "\n");
             fw.write("# Lưu trữ các tham số quan trọng cho Scheduler.\n\n");
 
-            // Tham số quan trọng 1: Thời điểm chạy cuối cùng thành công
             fw.write("LAST_SUCCESSFUL_RUN_TIME=" + (lastRunTime != null ? lastRunTime : "1900-01-01 00:00:00") + "\n");
-
-            // Tham số quan trọng 2: ID của lần chạy này (dùng để truy vết)
             fw.write("CURRENT_RUN_ID=" + currentRunId.get() + "\n");
-
-            // Tham số quan trọng 3: Đường dẫn file CSV staging
             fw.write("STAGING_CSV_FILE=" + dateStr + "_products.csv\n");
 
             log("Đã xuất file cấu hình: " + fullPath);

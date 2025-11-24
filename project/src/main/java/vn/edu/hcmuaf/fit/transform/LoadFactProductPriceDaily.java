@@ -10,8 +10,6 @@ public class LoadFactProductPriceDaily {
     public static int load() throws Exception {
         LoggerUtil.log("=== [Script 4.3] Bắt đầu load fact_product_price_daily ===");
 
-        // ⚡⚡⚡ PURE SQL - KHÔNG LOOP JAVA
-        // FIX: Thêm COLLATE utf8mb4_unicode_ci để unify encoding
         String insertFact = """
             INSERT IGNORE INTO warehouse_db.fact_product_price_daily (
                 date_key, product_id, price, crawl_date
@@ -29,18 +27,31 @@ public class LoadFactProductPriceDaily {
         """;
 
         int count = 0;
+        long startTime = System.currentTimeMillis();
+        String errorMsg = null;
 
         try (Connection warehouseConn = WarehouseDBConfig.getConnection()) {
             LoggerUtil.log("⚡⚡⚡ Dùng PURE SQL - 1 lệnh INSERT SELECT JOIN (NO JAVA LOOP)...");
+            LoggerUtil.log("📌 JOIN: stg_products_clean + dim_product (URL) + dim_date (crawl_date)");
 
             try (Statement stmt = warehouseConn.createStatement()) {
                 count = stmt.executeUpdate(insertFact);
             }
 
+            long duration = System.currentTimeMillis() - startTime;
+
             LoggerUtil.log("✅ Load fact_product_price_daily hoàn tất:");
-            LoggerUtil.log("   - Đã insert: " + count + " records (CHỈ GIÁ THẬT từ Cellphones.vn)");
+            LoggerUtil.log("   - Bản ghi được insert: " + count + " records");
+            LoggerUtil.log("   - Dữ liệu: 100% THẬT từ Cellphones.vn");
+            LoggerUtil.log("   - Thời gian: " + duration + "ms (~1-2 giây)");
+
+            LoggerUtil.logStep("4.3", "LoadFactProductPrice", count, duration, "SUCCESS", null);
         } catch (Exception e) {
-            LoggerUtil.log("❌ Lỗi Script 4.3: " + e.getMessage());
+            long duration = System.currentTimeMillis() - startTime;
+            errorMsg = e.getMessage();
+            LoggerUtil.log("❌ Lỗi Script 4.3: " + errorMsg);
+            LoggerUtil.logStep("4.3", "LoadFactProductPrice", count, duration, "FAILED", errorMsg);
+            e.printStackTrace();
             throw e;
         }
 

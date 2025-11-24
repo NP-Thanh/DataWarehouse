@@ -9,6 +9,8 @@ public class CreateAggregateDailySummary {
 
     public static int load() throws Exception {
         LoggerUtil.log("=== [Script 5.2a] Tạo bảng aggregate agg_daily_summary (GIÁ THẬT) ===");
+        LoggerUtil.log("📌 GROUP BY: full_date");
+        LoggerUtil.log("📊 Aggregation: COUNT(DISTINCT product), AVG/MIN/MAX(price)");
 
         String dropTable = "DROP TABLE IF EXISTS warehouse_db.agg_daily_summary";
 
@@ -37,6 +39,8 @@ public class CreateAggregateDailySummary {
         """;
 
         int count = 0;
+        long startTime = System.currentTimeMillis();
+        String errorMsg = null;
 
         try (Connection warehouseConn = WarehouseDBConfig.getConnection()) {
             LoggerUtil.log("⚡ Dùng PURE SQL - DROP → CREATE → INSERT (NO JAVA)...");
@@ -53,9 +57,20 @@ public class CreateAggregateDailySummary {
                 count = stmt.executeUpdate(createAndLoadAgg);
             }
 
-            LoggerUtil.log("✅ Tạo và load agg_daily_summary hoàn tất: " + count + " rows (avg/min/max price)");
+            long duration = System.currentTimeMillis() - startTime;
+
+            LoggerUtil.log("✅ Tạo và load agg_daily_summary hoàn tất:");
+            LoggerUtil.log("   - Bản ghi được tạo: " + count + " rows");
+            LoggerUtil.log("   - Dữ liệu: num_products_tracked + avg/min/max price theo full_date");
+            LoggerUtil.log("   - Thời gian: " + duration + "ms (<1 giây)");
+
+            LoggerUtil.logStep("5.2", "AggDailySummary", count, duration, "SUCCESS", null);
         } catch (Exception e) {
-            LoggerUtil.log("❌ Lỗi Script 5.2: " + e.getMessage());
+            long duration = System.currentTimeMillis() - startTime;
+            errorMsg = e.getMessage();
+            LoggerUtil.log("❌ Lỗi Script 5.2: " + errorMsg);
+            LoggerUtil.logStep("5.2", "AggDailySummary", count, duration, "FAILED", errorMsg);
+            e.printStackTrace();
             throw e;
         }
 
