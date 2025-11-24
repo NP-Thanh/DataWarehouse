@@ -1,6 +1,5 @@
 package vn.edu.hcmuaf.fit.transform;
 
-import vn.edu.hcmuaf.fit.db.StagingDBConfig;
 import vn.edu.hcmuaf.fit.db.WarehouseDBConfig;
 import vn.edu.hcmuaf.fit.util.LoggerUtil;
 
@@ -11,7 +10,6 @@ public class LoadDimDateToWarehouse {
     public static int load() throws Exception {
         LoggerUtil.log("=== [Script 4.1] Bắt đầu load dim_date từ staging_db sang warehouse_db ===");
 
-        // ⚡ BULK INSERT - 1 lệnh SQL duy nhất thay vì loop 7670 lần
         String insertToWarehouse = """
             INSERT IGNORE INTO warehouse_db.dim_date (
                 date_key, full_date, day_of_month, month_number, day_name,
@@ -36,6 +34,8 @@ public class LoadDimDateToWarehouse {
         """;
 
         int count = 0;
+        long startTime = System.currentTimeMillis();
+        String errorMsg = null;
 
         try (Connection warehouseConn = WarehouseDBConfig.getConnection()) {
             LoggerUtil.log("⚡ Dùng BULK INSERT - 1 lệnh SQL thay vì loop 7000+ lần...");
@@ -44,9 +44,19 @@ public class LoadDimDateToWarehouse {
                 count = stmt.executeUpdate(insertToWarehouse);
             }
 
-            LoggerUtil.log("✅ Load dim_date hoàn tất. Tổng: " + count + " bản ghi. (Thời gian: ~5-10 giây)");
+            long duration = System.currentTimeMillis() - startTime;
+
+            LoggerUtil.log("✅ Load dim_date hoàn tất:");
+            LoggerUtil.log("   - Bản ghi được insert: " + count);
+            LoggerUtil.log("   - Thời gian: " + duration + "ms (~1-2 giây)");
+
+            LoggerUtil.logStep("4.1", "LoadDimDate", count, duration, "SUCCESS", null);
         } catch (Exception e) {
-            LoggerUtil.log("❌ Lỗi Script 4.1: " + e.getMessage());
+            long duration = System.currentTimeMillis() - startTime;
+            errorMsg = e.getMessage();
+            LoggerUtil.log("❌ Lỗi Script 4.1: " + errorMsg);
+            LoggerUtil.logStep("4.1", "LoadDimDate", count, duration, "FAILED", errorMsg);
+            e.printStackTrace();
             throw e;
         }
 

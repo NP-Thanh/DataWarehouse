@@ -25,7 +25,7 @@ public class Main {
 
             // ── Script 4: Load to Warehouse (SCD Type 2) ──────────────
             LoggerUtil.log("=== SCRIPT 4: LOAD TO WAREHOUSE (DIM + FACT) ===");
-            LoadDimDateToWarehouse.load();
+//            LoadDimDateToWarehouse.load();
             LoadDimProductToWarehouse.load();
             LoadFactProductPriceDaily.load();
             LoggerUtil.log("Script 4 HOÀN TẤT");

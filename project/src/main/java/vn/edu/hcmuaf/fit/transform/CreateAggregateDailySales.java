@@ -9,6 +9,8 @@ public class CreateAggregateDailySales {
 
     public static int load() throws Exception {
         LoggerUtil.log("=== [Script 5.1a] Tạo bảng aggregate agg_daily_sales (GIÁ THẬT) ===");
+        LoggerUtil.log("📌 GROUP BY: date_key, product_id");
+        LoggerUtil.log("📊 Aggregation: AVG(price), MIN(price), MAX(price)");
 
         String dropTable = "DROP TABLE IF EXISTS warehouse_db.agg_daily_sales";
 
@@ -39,6 +41,8 @@ public class CreateAggregateDailySales {
         """;
 
         int count = 0;
+        long startTime = System.currentTimeMillis();
+        String errorMsg = null;
 
         try (Connection warehouseConn = WarehouseDBConfig.getConnection()) {
             LoggerUtil.log("⚡ Dùng PURE SQL - DROP → CREATE → INSERT (NO JAVA)...");
@@ -55,9 +59,20 @@ public class CreateAggregateDailySales {
                 count = stmt.executeUpdate(createAndLoadAgg);
             }
 
-            LoggerUtil.log("✅ Tạo và load agg_daily_sales hoàn tất: " + count + " rows (avg/min/max price)");
+            long duration = System.currentTimeMillis() - startTime;
+
+            LoggerUtil.log("✅ Tạo và load agg_daily_sales hoàn tất:");
+            LoggerUtil.log("   - Bản ghi được tạo: " + count + " rows");
+            LoggerUtil.log("   - Dữ liệu: avg/min/max price theo date_key + product_id");
+            LoggerUtil.log("   - Thời gian: " + duration + "ms (~1-2 giây)");
+
+            LoggerUtil.logStep("5.1", "AggDailySales", count, duration, "SUCCESS", null);
         } catch (Exception e) {
-            LoggerUtil.log("❌ Lỗi Script 5.1: " + e.getMessage());
+            long duration = System.currentTimeMillis() - startTime;
+            errorMsg = e.getMessage();
+            LoggerUtil.log("❌ Lỗi Script 5.1: " + errorMsg);
+            LoggerUtil.logStep("5.1", "AggDailySales", count, duration, "FAILED", errorMsg);
+            e.printStackTrace();
             throw e;
         }
 
