@@ -1,11 +1,11 @@
 package vn.edu.hcmuaf.fit;
 
 import vn.edu.hcmuaf.fit.util.LoggerUtil;
-import vn.edu.hcmuaf.fit.transform.LoadDimDateToWarehouse;
-import vn.edu.hcmuaf.fit.transform.LoadDimProductToWarehouse;
-import vn.edu.hcmuaf.fit.transform.LoadFactProductPriceDaily;
-import vn.edu.hcmuaf.fit.transform.CreateAggregateDailySales;
-import vn.edu.hcmuaf.fit.transform.CreateAggregateDailySummary;
+import vn.edu.hcmuaf.fit.load_to_warehouse.LoadDimDateToWarehouse;
+import vn.edu.hcmuaf.fit.load_to_warehouse.LoadDimProductToWarehouse;
+import vn.edu.hcmuaf.fit.load_to_warehouse.LoadFactProductPriceDaily;
+import vn.edu.hcmuaf.fit.aggregate.CreateAggregateDailySales;
+import vn.edu.hcmuaf.fit.aggregate.CreateAggregateDailySummary;
 
 public class RunScript4And5 {
     public static void main(String[] args) {
