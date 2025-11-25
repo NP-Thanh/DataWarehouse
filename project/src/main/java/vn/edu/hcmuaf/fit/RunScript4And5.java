@@ -25,12 +25,6 @@ public class RunScript4And5 {
             // ==================== SCRIPT 4: WAREHOUSE ====================
             LoggerUtil.log("\n=== SCRIPT 4: LOAD DỮ LIỆU VÀO WAREHOUSE ===\n");
 
-            // 4.1 Load dim_date
-            LoggerUtil.log("▶ 4.1 Bắt đầu load dim_date...");
-            int count41 = LoadDimDateToWarehouse.load();
-            totalRecords += count41;
-            LoggerUtil.log("✅ 4.1 dim_date → warehouse_db HOÀN TẤT\n");
-
             // 4.2 Load dim_product
             LoggerUtil.log("▶ 4.2 Bắt đầu load dim_product (SIMPLIFIED)...");
             int count42 = LoadDimProductToWarehouse.load();

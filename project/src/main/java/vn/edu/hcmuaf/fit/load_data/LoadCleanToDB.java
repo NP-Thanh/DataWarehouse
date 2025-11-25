@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 
 public class LoadCleanToDB {
     //CLEAN
-    public static int load() throws Exception {
+    public static int clean() throws Exception {
         // SQL select dữ liệu từ bảng stg_products_raw
         String selectRaw = """
             SELECT product_name, brand, price, original_price, url, image_url, crawl_date
@@ -73,7 +73,7 @@ public class LoadCleanToDB {
             LoggerUtil.log("Bắt đầu thực thi CLEAN DATA.");
 
             // 2. THỰC HIỆN CLEAN VÀ LOAD
-            recordCount = load(); // Lấy số lượng bản ghi đã insert thành công
+            recordCount = clean(); // Lấy số lượng bản ghi đã insert thành công
 
             // 3. KẾT THÚC THÀNH CÔNG VÀ CẬP NHẬT CONTROL DB
             LoggerUtil.endProcess(recordCount, "SUCCESS", null);

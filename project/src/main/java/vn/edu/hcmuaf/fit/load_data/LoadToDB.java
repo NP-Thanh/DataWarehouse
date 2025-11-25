@@ -6,7 +6,10 @@ import vn.edu.hcmuaf.fit.db.DatabaseConfig;
 import vn.edu.hcmuaf.fit.util.LoggerUtil;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
@@ -25,7 +28,9 @@ public class LoadToDB {
         //Kết nối đến DB
         try (Connection conn = DatabaseConfig.getConnection()) {
             //Đọc file csv
-            CSVReader reader = new CSVReader(new FileReader(csvFile));
+            CSVReader reader = new CSVReader(new InputStreamReader(
+                    new FileInputStream(csvFile), StandardCharsets.UTF_8
+            ));
             reader.readNext(); // bỏ header
             //Khởi tạo lệnh insert với Batch Processing
             PreparedStatement ps = conn.prepareStatement(sql);

@@ -14,12 +14,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import vn.edu.hcmuaf.fit.util.LoggerUtil;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.nio.charset.StandardCharsets;
+
 
 public class Extract {
     // URL danh mục điện thoại
@@ -32,13 +32,22 @@ public class Extract {
         // 1. Cấu hình Selenium
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless"); // chạy ẩn (không hiện Chrome lên)
+//        options.addArguments("--headless"); // chạy ẩn (không hiện Chrome lên)
         options.addArguments("--disable-notifications"); // Tắt thông báo
         options.addArguments("--start-maximized"); // Mở full màn hình
 
         WebDriver driver = new ChromeDriver(options);
 
-        try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile))) {
+        try (CSVWriter writer = new CSVWriter(
+                new OutputStreamWriter(new FileOutputStream(csvFile), StandardCharsets.UTF_8))
+        ) {
+            // Thêm BOM UTF-8 để Excel nhận diện đúng
+            try (FileOutputStream fos = new FileOutputStream(csvFile)) {
+                fos.write(new byte[]{(byte)0xEF, (byte)0xBB, (byte)0xBF});
+            }
+            CSVWriter writerWithBOM = new CSVWriter(
+                    new OutputStreamWriter(new FileOutputStream(csvFile, true), StandardCharsets.UTF_8)
+            );
             writer.writeNext(new String[]{"product_name", "brand", "price", "original_price", "url", "image_url"});
 
             LoggerUtil.log("=== Bắt đầu mở trình duyệt: " + TARGET_URL);
@@ -99,7 +108,7 @@ public class Extract {
 
                     // Xử lý giá
                     String price = p.select("p.product__price--show").text();
-                    if(price.isEmpty()) price = "0";
+                    if (price.isEmpty()) price = "0";
 
                     String discount = p.select("p.product__price--through").text();
 
@@ -142,7 +151,7 @@ public class Extract {
         if (lower.contains("tecno")) return "Tecno";
         if (lower.contains("infinix")) return "Infinix";
         return "Other";
-   }
+    }
 
     public static void main(String[] args) {
 
@@ -163,7 +172,7 @@ public class Extract {
             String csvFile = crawlToCSV();
 
             // Đọc lại số lượng bản ghi (Tuy nhiên, do hàm crawlToCSV hiện không trả về count, ta cần ước tính)
-            recordCount = (int) java.nio.file.Files.lines(new File(csvFile).toPath()).count() - 1;
+            recordCount = (int) java.nio.file.Files.lines(new File(csvFile).toPath(), StandardCharsets.UTF_8).count() - 1;
 
             // 3. KẾT THÚC THÀNH CÔNG VÀ CẬP NHẬT CONTROL DB
             LoggerUtil.endProcess(recordCount, "SUCCESS", null);
