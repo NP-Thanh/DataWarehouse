@@ -1,10 +1,13 @@
 package vn.edu.hcmuaf.fit;
 
+import vn.edu.hcmuaf.fit.aggregate.CreateAggregateDailySales;
+import vn.edu.hcmuaf.fit.aggregate.CreateAggregateDailySummary;
 import vn.edu.hcmuaf.fit.crawl.Extract;
 import vn.edu.hcmuaf.fit.db.DatabaseConfig;
 import vn.edu.hcmuaf.fit.load_data.LoadToDB;
+import vn.edu.hcmuaf.fit.load_to_warehouse.LoadDimProductToWarehouse;
+import vn.edu.hcmuaf.fit.load_to_warehouse.LoadFactProductPriceDaily;
 import vn.edu.hcmuaf.fit.mart.LoadToMart;
-import vn.edu.hcmuaf.fit.transform.*;
 import vn.edu.hcmuaf.fit.util.LoggerUtil;
 
 public class Main {

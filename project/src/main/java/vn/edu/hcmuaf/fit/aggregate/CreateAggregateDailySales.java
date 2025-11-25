@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.transform;
+package vn.edu.hcmuaf.fit.aggregate;
 
 import vn.edu.hcmuaf.fit.db.WarehouseDBConfig;
 import vn.edu.hcmuaf.fit.util.LoggerUtil;
