@@ -59,6 +59,7 @@ public class LoadToMart {
             throw e;
         }
     }
+
     // 6.1. Xuất 2 file CSV tổng hợp
     // 6.1.1 aggregate_daily_summary_[dd_MM_yyyy].csv
     // 6.1.2 aggregate_daily_sales_[dd_MM_yyyy].csv
@@ -68,6 +69,7 @@ public class LoadToMart {
         exportDailySalesCSV(); // 1.2
         LoggerUtil.log("Xuất CSV xong rồi ạ!");
     }
+
     // 6.1.1 Xuất file aggregate_daily_summary (tổng hợp theo ngày)
     private static void exportDailySummaryCSV() throws Exception {
         String sql = """
@@ -123,6 +125,7 @@ public class LoadToMart {
                 "mart_daily_summary");
         LoggerUtil.log("ĐÃ TẠO VÀ LOAD BẢNG mart_daily_summary");
     }
+
     // 6.2.2 Tạo bảng mart_daily_sales → Chi tiết giá từng sản phẩm theo ngày
     private static void createAndLoadMartDailySales() throws Exception {
         execute("DROP TABLE IF EXISTS data_mart.mart_daily_sales",
@@ -211,17 +214,17 @@ public class LoadToMart {
         execute(
                 "DROP TABLE IF EXISTS data_mart.mart_top10_daily_change",
                 """
-                CREATE TABLE data_mart.mart_top10_daily_change (
-                    full_date DATE,
-                    top_rank TINYINT,
-                    product_name VARCHAR(255),
-                    brand VARCHAR(100),
-                    prev_price DECIMAL(15,2),
-                    current_price DECIMAL(15,2),
-                    percent_change DECIMAL(6,2),
-                    PRIMARY KEY (full_date, top_rank)
-                )
-                """,
+                        CREATE TABLE data_mart.mart_top10_daily_change (
+                            full_date DATE,
+                            top_rank TINYINT,
+                            product_name VARCHAR(255),
+                            brand VARCHAR(100),
+                            prev_price DECIMAL(15,2),
+                            current_price DECIMAL(15,2),
+                            percent_change DECIMAL(6,2),
+                            PRIMARY KEY (full_date, top_rank)
+                        )
+                        """,
                 insertSql,
                 "mart_top10_daily_change"
         );
@@ -231,33 +234,33 @@ public class LoadToMart {
     private static void createAndLoadTodayTopPrice() throws Exception {
         execute("DROP TABLE IF EXISTS data_mart.mart_today_top_price",
                 """
-                CREATE TABLE data_mart.mart_today_top_price (
-                    rank_no TINYINT PRIMARY KEY,
-                    product_name VARCHAR(255),
-                    brand VARCHAR(100),
-                    today_price DECIMAL(15,2)
-                )
-                """,
+                        CREATE TABLE data_mart.mart_today_top_price (
+                            rank_no TINYINT PRIMARY KEY,
+                            product_name VARCHAR(255),
+                            brand VARCHAR(100),
+                            today_price DECIMAL(15,2)
+                        )
+                        """,
                 """
-                INSERT INTO data_mart.mart_today_top_price
-                WITH ranked_today AS (
-                    SELECT 
-                        p.product_name,
-                        p.brand,
-                        ds.avg_price AS today_price,
-                        ROW_NUMBER() OVER (ORDER BY ds.avg_price DESC) AS rank_no
-                    FROM data_mart.mart_daily_sales ds
-                    JOIN data_mart.dim_product p ON ds.product_id = p.product_id
-                    WHERE ds.full_date = CURDATE()
-                )
-                SELECT rank_no, product_name, brand, today_price
-                FROM ranked_today
-                WHERE rank_no <= 20
-                ON DUPLICATE KEY UPDATE
-                    product_name = VALUES(product_name),
-                    brand = VALUES(brand),
-                    today_price = VALUES(today_price)
-                """,
+                        INSERT INTO data_mart.mart_today_top_price
+                        WITH ranked_today AS (
+                            SELECT 
+                                p.product_name,
+                                p.brand,
+                                ds.avg_price AS today_price,
+                                ROW_NUMBER() OVER (ORDER BY ds.avg_price DESC) AS rank_no
+                            FROM data_mart.mart_daily_sales ds
+                            JOIN data_mart.dim_product p ON ds.product_id = p.product_id
+                            WHERE ds.full_date = CURDATE()
+                        )
+                        SELECT rank_no, product_name, brand, today_price
+                        FROM ranked_today
+                        WHERE rank_no <= 20
+                        ON DUPLICATE KEY UPDATE
+                            product_name = VALUES(product_name),
+                            brand = VALUES(brand),
+                            today_price = VALUES(today_price)
+                        """,
                 "mart_today_top_price");
         LoggerUtil.log("ĐÃ TẠO BẢNG THỨ 5: mart_today_top_price – TOP 20 SẢN PHẨM ĐẮT NHẤT HÔM NAY");
     }
@@ -271,6 +274,7 @@ public class LoadToMart {
                 "INSERT INTO data_mart.dim_date SELECT * FROM warehouse_db.dim_date",
                 "dim_date");
     }
+
     // 6.3.2 Sao chép bảng dim_product
     private static void copyDimProduct() throws Exception {
         execute("DROP TABLE IF EXISTS data_mart.dim_product",
@@ -322,7 +326,7 @@ public class LoadToMart {
 
     // 6.4. Tạo Dashboard phân tích
     private static void generateDashboard() {
-        LoggerUtil.log("ĐANG TẠO DASHBOARD – ĐỦ 7 BẢNG TRONG DATA MART");
+        LoggerUtil.log("ĐANG TẠO DASHBOARD PHIÊN BẢN HOÀN HẢO – ĐẦY ĐỦ DỮ LIỆU – ĐẸP NHƯ POWER BI");
 
         StringBuilder trendLabels = new StringBuilder();
         StringBuilder trendData = new StringBuilder();
@@ -334,23 +338,27 @@ public class LoadToMart {
 
         try (Connection conn = DataMartDBConfig.getConnection()) {
 
-            //  Xu hướng giá
+            // 1. Xu hướng giá trung bình 30 ngày (mới nhất trước)
             try (PreparedStatement ps = conn.prepareStatement(
-                    "SELECT DATE_FORMAT(full_date, '%d/%m') AS d, avg_price FROM data_mart.mart_daily_summary ORDER BY full_date DESC LIMIT 30");
+                    "SELECT DATE_FORMAT(full_date, '%d/%m') AS d, avg_price " +
+                            "FROM data_mart.mart_daily_summary ORDER BY full_date DESC LIMIT 30");
                  ResultSet rs = ps.executeQuery()) {
                 boolean first = true;
                 while (rs.next()) {
-                    if (!first) { trendLabels.append(","); trendData.append(","); }
+                    if (!first) {
+                        trendLabels.append(",");
+                        trendData.append(",");
+                    }
                     trendLabels.append("'").append(rs.getString("d")).append("'");
                     trendData.append(rs.getBigDecimal("avg_price").setScale(0, RoundingMode.HALF_UP));
                     first = false;
                 }
-                if (trendLabels.length() == 0) { trendLabels.append("'Chưa có'"); trendData.append("0"); }
             }
 
-            //  Top 10 thay đổi giá
+            // 2. Top 10 thay đổi giá mạnh nhất
             try (PreparedStatement ps = conn.prepareStatement(
-                    "SELECT top_rank, product_name, brand, prev_price, current_price, percent_change FROM data_mart.mart_top10_daily_change ORDER BY top_rank");
+                    "SELECT top_rank, product_name, brand, prev_price, current_price, percent_change " +
+                            "FROM data_mart.mart_top10_daily_change ORDER BY top_rank");
                  ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     int rank = rs.getInt("top_rank");
@@ -358,30 +366,23 @@ public class LoadToMart {
                     BigDecimal pct = rs.getBigDecimal("percent_change");
                     String sign = pct.compareTo(BigDecimal.ZERO) > 0 ? "+" : "";
                     String color = pct.compareTo(BigDecimal.ZERO) > 0 ? "up" : "down";
+
                     top10Html.append("<tr class=\"").append(rankClass).append("\">")
                             .append("<td>").append(rank).append("</td>")
                             .append("<td>").append(escape(rs.getString("product_name"))).append("</td>")
                             .append("<td>").append(rs.getString("brand")).append("</td>")
-                            .append("<td>").append(String.format("%,.0f", rs.getBigDecimal("prev_price"))).append(" ₫</td>")
-                            .append("<td>").append(String.format("%,.0f", rs.getBigDecimal("current_price"))).append(" ₫</td>")
-                            .append("<td class=\"").append(color).append("\">").append(sign).append(pct.setScale(2, RoundingMode.HALF_UP)).append("%</td>")
+                            .append("<td>").append(String.format("%,.0f ₫", rs.getBigDecimal("prev_price"))).append("</td>")
+                            .append("<td>").append(String.format("%,.0f ₫", rs.getBigDecimal("current_price"))).append("</td>")
+                            .append("<td class=\"").append(color).append("\">")
+                            .append(sign).append(pct.setScale(2, RoundingMode.HALF_UP)).append("%</td>")
                             .append("</tr>");
                 }
             }
 
-            //  Giá TB 30 ngày
+            // 3. Top 20 đắt nhất hôm nay
             try (PreparedStatement ps = conn.prepareStatement(
-                    "SELECT product_name, brand, FORMAT(avg_price_30days, 0) AS price FROM data_mart.mart_product_summary ORDER BY avg_price_30days DESC LIMIT 20");
-                 ResultSet rs = ps.executeQuery()) {
-                int stt = 1;
-                while (rs.next()) {
-                    productSummaryHtml.append("<tr><td>").append(stt++).append("</td><td>").append(escape(rs.getString("product_name"))).append("</td><td>").append(rs.getString("brand")).append("</td><td>").append(rs.getString("price")).append(" ₫</td></tr>");
-                }
-            }
-
-            //  Top 20 đắt nhất hôm nay – từ bảng mart_today_top_price
-            try (PreparedStatement ps = conn.prepareStatement(
-                    "SELECT rank_no, product_name, brand, FORMAT(today_price, 0) AS price FROM data_mart.mart_today_top_price ORDER BY rank_no");
+                    "SELECT rank_no, product_name, brand, today_price " +
+                            "FROM data_mart.mart_today_top_price ORDER BY rank_no");
                  ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     int rank = rs.getInt("rank_no");
@@ -390,18 +391,37 @@ public class LoadToMart {
                             .append("<td>").append(rank).append("</td>")
                             .append("<td>").append(escape(rs.getString("product_name"))).append("</td>")
                             .append("<td>").append(rs.getString("brand")).append("</td>")
-                            .append("<td>").append(rs.getString("price")).append(" ₫</td>")
+                            .append("<td>").append(String.format("%,.0f ₫", rs.getBigDecimal("today_price"))).append("</td>")
                             .append("</tr>");
                 }
             }
 
-            //  Biểu đồ theo hãng
+            // 4. Top 20 giá TB 30 ngày cao nhất
             try (PreparedStatement ps = conn.prepareStatement(
-                    "SELECT brand, COUNT(*) c FROM data_mart.dim_product GROUP BY brand ORDER BY c DESC LIMIT 8");
+                    "SELECT product_name, brand, avg_price_30days " +
+                            "FROM data_mart.mart_product_summary ORDER BY avg_price_30days DESC LIMIT 20");
+                 ResultSet rs = ps.executeQuery()) {
+                int stt = 1;
+                while (rs.next()) {
+                    productSummaryHtml.append("<tr>")
+                            .append("<td>").append(stt++).append("</td>")
+                            .append("<td>").append(escape(rs.getString("product_name"))).append("</td>")
+                            .append("<td>").append(rs.getString("brand")).append("</td>")
+                            .append("<td>").append(String.format("%,.0f ₫", rs.getBigDecimal("avg_price_30days"))).append("</td>")
+                            .append("</tr>");
+                }
+            }
+
+            // 5. Tỷ lệ sản phẩm theo hãng
+            try (PreparedStatement ps = conn.prepareStatement(
+                    "SELECT brand, COUNT(*) AS c FROM data_mart.dim_product GROUP BY brand ORDER BY c DESC LIMIT 8");
                  ResultSet rs = ps.executeQuery()) {
                 boolean first = true;
                 while (rs.next()) {
-                    if (!first) { brandLabels.append(","); brandData.append(","); }
+                    if (!first) {
+                        brandLabels.append(",");
+                        brandData.append(",");
+                    }
                     brandLabels.append("'").append(rs.getString("brand")).append("'");
                     brandData.append(rs.getInt("c"));
                     first = false;
@@ -409,56 +429,128 @@ public class LoadToMart {
             }
 
         } catch (Exception e) {
-            LoggerUtil.log("LỖI LẤY DỮ LIỆU DASHBOARD: " + e.getMessage());
+            LoggerUtil.log("LỖI KẾT NỐI HOẶC QUERY: " + e.getMessage());
             e.printStackTrace();
         }
 
         String timeNow = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
-        String html = "<!DOCTYPE html><html lang=\"vi\"><head><meta charset=\"UTF-8\">" +
-                "<title>CELLPHONES DATA MART - 10 ĐIỂM ĐỎ</title>" +
-                "<script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>" +
-                "<style>body{font-family:Segoe UI;background:#0f2027;color:white;margin:0;padding:20px;}" +
-                ".c{max-width:1700px;margin:auto;background:rgba(0,0,0,0.9);padding:50px;border-radius:30px;box-shadow:0 0 70px #00e676;}" +
-                "h1,h2{text-align:center;color:#00e676;text-shadow:0 0 30px #00e676;}h2{color:gold;font-size:2.5em;}" +
-                ".time{color:#ff1744;font-size:2em;text-align:center;margin:20px;font-weight:bold;}" +
-                "canvas{background:rgba(255,255,255,0.1);border-radius:20px;padding:20px;margin:40px 0;}" +
-                "table{width:100%;border-collapse:collapse;margin:50px 0;font-size:1.5em;background:rgba(0,0,0,0.7);border-radius:15px;overflow:hidden;}" +
-                "th{background:#c62828;padding:18px;color:white;}td{padding:15px;text-align:center;}" +
-                ".rank1{background:gold!important;color:black!important;font-weight:bold;}" +
-                ".rank2{background:silver!important;color:black!important;}.rank3{background:#cd7f32!important;color:white!important;}" +
-                ".up{color:#00e676;font-weight:bold;}.down{color:#ff1744;font-weight:bold;}" +
-                ".footer{text-align:center;margin:100px 0;font-size:2.5em;color:#00e676;font-weight:bold;}</style></head>" +
-                "<body><div class=\"c\">" +
-                "<h1>CELLPHONES DATA MART</h1><h2>ĐỒ ÁN DATA WAREHOUSE - NHÓM 12</h2>" +
-                "<div class=\"time\">Cập nhật: " + timeNow + "</div>" +
-                "<canvas id=\"trend\"></canvas><canvas id=\"brand\"></canvas>" +
-                "<h2>TOP 10 SẢN PHẨM THAY ĐỔI GIÁ MẠNH NHẤT</h2><table><tr><th>Hạng</th><th>Sản phẩm</th><th>Hãng</th><th>Giá cũ</th><th>Giá mới</th><th>±%</th></tr>" + top10Html + "</table>" +
-                "<h2>GIÁ TRUNG BÌNH 30 NGÀY (TOP 20)</h2><table><tr><th>STT</th><th>Sản phẩm</th><th>Hãng</th><th>Giá TB</th></tr>" + productSummaryHtml + "</table>" +
-                "<h2>TOP 20 SẢN PHẨM ĐẮT NHẤT HÔM NAY</h2><table><tr><th>Hạng</th><th>Sản phẩm</th><th>Hãng</th><th>Giá hôm nay</th></tr>" + todayTopPriceHtml + "</table>" +
-                "<div class=\"footer\">100% JAVA • 7 BẢNG TRONG DATA MART •</div></div>" +
-                "<script>" +
-                "new Chart(document.getElementById('trend'),{type:'line',data:{labels:[" + new StringBuilder(trendLabels).reverse() + "],datasets:[{label:'Giá trung bình',data:[" + new StringBuilder(trendData).reverse() + "],borderColor:'#00e676',backgroundColor:'rgba(0,230,118,0.3)',tension:0.4,fill:true}]},options:{plugins:{title:{display:true,text:'XU HƯỚNG GIÁ 30 NGÀY',font:{size:26}}}}});" +
-                "new Chart(document.getElementById('brand'),{type:'doughnut',data:{labels:[" + brandLabels + "],datasets:[{data:[" + brandData + "],backgroundColor:['#ff1744','#00e676','#ffd600','#2196f3','#ff9800','#9c27b0','#00bcd4','#e91e63']}]},options:{plugins:{title:{display:true,text:'TỶ LỆ THEO HÃNG',font:{size:26}}}}});" +
-                "</script></body></html>";
+
+        String htmlTemplate = """
+                <!DOCTYPE html>
+                <html lang="vi">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Cellphones Data Mart - Nhóm 12</title>
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                    <style>
+                        body {font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; color: #333; margin:0; padding:0; line-height:1.6;}
+                        .container {max-width: 1400px; margin: 0 auto; padding: 20px;}
+                        .header {background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 40px 20px; text-align: center; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);}
+                        h1 {margin:0; font-size: 3.5em; font-weight: 700;}
+                       .time {font-size: 1.8em; margin-top: 10px; opacity: 0.9;}
+                        .menu {background: white; padding: 20px; text-align: center; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); margin: 30px 0; position: sticky; top: 10px; z-index: 100;}
+                        .menu button {margin: 8px; padding: 14px 28px; font-size: 1.3em; background: #667eea; color: white; border: none; border-radius: 50px; cursor: pointer; transition: all 0.3s;}
+                        .menu button:hover {background: #5a6fd8; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(102,126,234,0.4);}
+                        .section {background: white; margin: 40px 0; padding: 40px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.1);}
+                        h2 {text-align: center; color: #444; font-size: 2.6em; margin-bottom: 30px;}
+                        canvas {background: #fdfdfd; border-radius: 12px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);}
+                        table {width: 100%%; border-collapse: collapse; margin: 30px 0; font-size: 1.35em;}
+                        th {background: #667eea; color: white; padding: 20px; text-align: center;}
+                        td {padding: 18px 15px; text-align: center; border-bottom: 1px solid #eee;}
+                        tr:hover td {background: #f8f9ff;}
+                        tr:nth-child(even) td {background: #fbfbff;}
+                        .rank1 {background: #ffd700 !important; color: black; font-weight: bold;}
+                        .rank2 {background: #c0c0c0 !important; color: black;}
+                        .rank3 {background: #cd7f32 !important; color: black;}
+                        .up {color: #e74c3c; font-weight: bold;}
+                        .down {color: #27ae60; font-weight: bold;}
+                        .footer {text-align: center; padding: 60px 20px; color: #777; font-size: 1.6em; background: #f8f9fa; margin-top: 50px; border-radius: 15px;}
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="header">
+                            <h1>CELLPHONES DATA MART</h1>
+                            <div class="time">Cập nhật lúc: {{TIME}}</div>
+                        </div>
+                
+                        <div class="menu">
+                            <button onclick="location.href='#trend'">Xu hướng giá</button>
+                            <button onclick="location.href='#brand'">Theo hãng</button>
+                            <button onclick="location.href='#top10'">Top 10 giảm sốc</button>
+                            <button onclick="location.href='#top20'">Top 20 đắt nhất</button>
+                            <button onclick="location.href='#summary30'">Giá TB 30 ngày</button>
+                        </div>
+                
+                        <div id="trend" class="section">
+                            <h2>XU HƯỚNG GIÁ TRUNG BÌNH 30 NGÀY QUA</h2>
+                            <canvas id="trendChart" height="100"></canvas>
+                        </div>
+                
+                        <div id="brand" class="section">
+                            <h2>TỶ LỆ SẢN PHẨM THEO HÃNG</h2>
+                            <canvas id="brandChart" height="120"></canvas>
+                        </div>
+                
+                        <div id="top10" class="section">
+                            <h2>TOP 10 SẢN PHẨM THAY ĐỔI GIÁ MẠNH NHẤT</h2>
+                            <div style="overflow-x:auto;">
+                                <table><tr><th>Hạng</th><th>Sản phẩm</th><th>Hãng</th><th>Giá cũ</th><th>Giá mới</th><th>±%</th></tr>{{TOP10}}</table>
+                            </div>
+                        </div>
+                
+                        <div id="top20" class="section">
+                            <h2>TOP 20 SẢN PHẨM ĐẮT NHẤT HÔM NAY</h2>
+                            <div style="overflow-x:auto;">
+                                <table><tr><th>Hạng</th><th>Sản phẩm</th><th>Hãng</th><th>Giá hôm nay</th></tr>{{TOP20}}</table>
+                            </div>
+                        </div>
+                
+                        <div id="summary30" class="section">
+                            <h2>TOP 20 SẢN PHẨM GIÁ TB 30 NGÀY CAO NHẤT</h2>
+                            <div style="overflow-x:auto;">
+                                <table><tr><th>STT</th><th>Sản phẩm</th><th>Hãng</th><th>Giá TB 30 ngày</th></tr>{{SUMMARY30}}</table>
+                            </div>
+                        </div>
+                
+                        <div class="footer">100%% Java • 7 bảng Data Mart • Nhóm 12 • Đồ án Data Warehouse 2025</div>
+                    </div>
+                
+                    <script>
+                        new Chart(document.getElementById('trendChart'), {type:'line',data:{labels:[{{LABELS}}],datasets:[{label:'Giá trung bình (₫)',data:[{{DATA}}],borderColor:'#667eea',backgroundColor:'rgba(102,126,234,0.2)',tension:0.4,fill:true}]},options:{responsive:true,plugins:{title:{display:true,text:'Xu hướng giá 30 ngày',font:{size:20}}}}});
+                        new Chart(document.getElementById('brandChart'), {type:'doughnut',data:{labels:[{{BRAND_LABELS}}],datasets:[{data:[{{BRAND_DATA}}],backgroundColor:['#667eea','#764ba2','#f093fb','#f5576c','#4facfe','#43e97b','#fad390','#ff9ff3']}]},options:{responsive:true,plugins:{title:{display:true,text:'Tỷ lệ theo hãng',font:{size:20}}}}});
+                    </script>
+                </body>
+                </html>
+                """;
+
+        String finalHtml = htmlTemplate
+                .replace("{{TIME}}", timeNow)
+                .replace("{{TOP10}}", top10Html.length() > 0 ? top10Html.toString() : "<tr><td colspan=\"6\">Chưa có dữ liệu thay đổi giá</td></tr>")
+                .replace("{{TOP20}}", todayTopPriceHtml.length() > 0 ? todayTopPriceHtml.toString() : "<tr><td colspan=\"4\">Chưa có dữ liệu</td></tr>")
+                .replace("{{SUMMARY30}}", productSummaryHtml.length() > 0 ? productSummaryHtml.toString() : "<tr><td colspan=\"4\">Chưa có dữ liệu</td></tr>")
+                .replace("{{LABELS}}", trendLabels.length() > 0 ? trendLabels.toString() : "'Chưa có dữ liệu'")
+                .replace("{{DATA}}", trendData.length() > 0 ? trendData.toString() : "0")
+                .replace("{{BRAND_LABELS}}", brandLabels.length() > 0 ? brandLabels.toString() : "'Chưa có'")
+                .replace("{{BRAND_DATA}}", brandData.length() > 0 ? brandData.toString() : "0");
 
         try {
             Path path = Paths.get("dashboard/ui_mart.html");
             Files.createDirectories(path.getParent());
-            Files.writeString(path, html, StandardCharsets.UTF_8);
-            String abs = path.toAbsolutePath().toString();
-            LoggerUtil.log("DASHBOARD TẠO XONG – 7 BẢNG HOÀN HẢO!");
-            LoggerUtil.log("\u001B[32m>>> MỞ DASHBOARD: file:///" + abs.replace("\\", "/") + "\u001B[0m");
-            if (System.getProperty("os.name").toLowerCase().contains("win")) {
-                new ProcessBuilder("cmd", "/c", "start", "", abs).start();
-            }
+            Files.writeString(path, finalHtml, StandardCharsets.UTF_8);
+            LoggerUtil.log("DASHBOARD HOÀN HẢO 100% – ĐÃ CÓ ĐẦY ĐỦ DỮ LIỆU VÀ BIỂU ĐỒ!");
+            LoggerUtil.log("MỞ TRÌNH DUYỆT → http://localhost:8080");
         } catch (Exception e) {
-            LoggerUtil.log("LỖI GHI DASHBOARD: " + e.getMessage());
+            LoggerUtil.log("Lỗi ghi file dashboard: " + e.getMessage());
         }
     }
 
     private static String escape(String s) {
-        return s == null ? "" : s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;");
+        if (s == null) return "";
+        return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;");
     }
+
 
     public static void main(String[] args) {
         try {
@@ -472,9 +564,13 @@ public class LoadToMart {
             exportLogToFile();         // 6.5. Xuất file log chi tiết
             generateDashboard();       // 6.4. Tạo Dashboard HTML
 
+            DashboardServer.startServer();
+
             System.out.println("\nHOÀN TẤT 100% – 7 BẢNG TRONG data_mart!");
             System.out.println("Dashboard: dashboard/ui_mart.html");
 
+            // Giữ cửa sổ console mở mãi mãi để server không tắt
+            new java.util.Scanner(System.in).nextLine();
         } catch (Exception e) {
             LoggerUtil.log("SCRIPT 6 LỖI: " + e.getMessage());
             e.printStackTrace();

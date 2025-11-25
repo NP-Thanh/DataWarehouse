@@ -1,22 +1,22 @@
-[02:47:26] [RUN_ID:N/A] ======================================================================
-[02:47:26] [RUN_ID:N/A] =                  BẮT ĐẦU CHẠY SCRIPT 6 - LOAD TO DATA MART          =
-[02:47:26] [RUN_ID:N/A] =                     Ngày chạy: 25/11/2025 02:47:26                     =
-[02:47:26] [RUN_ID:N/A] ======================================================================
-[02:47:26] [RUN_ID:N/A] === SCRIPT 6: LOAD TO DATA MART - HOÀN THIỆN + TOP 10 + TOP 20 ĐẮT NHẤT ===
-[02:47:26] [RUN_ID:69064c61] Tiến trình BẮT ĐẦU với Run ID: 69064c61-6fca-4a45-8ece-204cef5a3e86
-[02:47:26] [RUN_ID:69064c61] Đang xuất 2 file CSV tổng hợp...
-[02:47:27] [RUN_ID:69064c61] Exported: data/aggregate/aggregate_daily_summary_25_11_2025.csv (6 dòng)
-[02:47:27] [RUN_ID:69064c61] Exported: data/aggregate/aggregate_daily_sales_25_11_2025.csv (1322 dòng)
-[02:47:27] [RUN_ID:69064c61] Xuất CSV xong rồi ạ!
-[02:47:28] [RUN_ID:69064c61] Loaded data_mart.mart_daily_summary: 6 rows
-[02:47:28] [RUN_ID:69064c61] ĐÃ TẠO VÀ LOAD BẢNG mart_daily_summary
-[02:47:29] [RUN_ID:69064c61] Loaded data_mart.mart_daily_sales: 1322 rows
-[02:47:29] [RUN_ID:69064c61] Loaded data_mart.mart_product_summary: 233 rows
-[02:47:30] [RUN_ID:69064c61] Loaded data_mart.mart_top10_daily_change: 10 rows
-[02:47:30] [RUN_ID:69064c61] Loaded data_mart.mart_today_top_price: 20 rows
-[02:47:30] [RUN_ID:69064c61] ĐÃ TẠO BẢNG THỨ 5: mart_today_top_price – TOP 20 SẢN PHẨM ĐẮT NHẤT HÔM NAY
-[02:47:32] [RUN_ID:69064c61] Loaded data_mart.dim_date: 7670 rows
-[02:47:32] [RUN_ID:69064c61] Loaded data_mart.dim_product: 233 rows
-[02:47:32] [RUN_ID:69064c61] Tiến trình KẾT THÚC THÀNH CÔNG. Bản ghi: 0
-[02:47:33] [RUN_ID:N/A] HOÀN TẤT 100%! Đã tạo đủ 2 file CSV + 7 bảng trong data_mart
-[02:47:33] [RUN_ID:N/A] 7 bảng trong data_mart: mart_daily_summary, mart_daily_sales, mart_product_summary, mart_top10_daily_change, mart_today_top_price, dim_date, dim_product
+[17:21:37] [RUN_ID:N/A] ======================================================================
+[17:21:37] [RUN_ID:N/A] =                  BẮT ĐẦU CHẠY SCRIPT 6 - LOAD TO DATA MART          =
+[17:21:37] [RUN_ID:N/A] =                     Ngày chạy: 25/11/2025 17:21:37                     =
+[17:21:37] [RUN_ID:N/A] ======================================================================
+[17:21:37] [RUN_ID:N/A] === SCRIPT 6: LOAD TO DATA MART - HOÀN THIỆN + TOP 10 + TOP 20 ĐẮT NHẤT ===
+[17:21:37] [RUN_ID:a0c63d1a] Tiến trình BẮT ĐẦU với Run ID: a0c63d1a-faca-4b21-b2fc-a33d5753b2ab
+[17:21:37] [RUN_ID:a0c63d1a] Đang xuất 2 file CSV tổng hợp...
+[17:21:38] [RUN_ID:a0c63d1a] Exported: data/aggregate/aggregate_daily_summary_25_11_2025.csv (7 dòng)
+[17:21:38] [RUN_ID:a0c63d1a] Exported: data/aggregate/aggregate_daily_sales_25_11_2025.csv (1542 dòng)
+[17:21:38] [RUN_ID:a0c63d1a] Xuất CSV xong rồi ạ!
+[17:21:39] [RUN_ID:a0c63d1a] Loaded data_mart.mart_daily_summary: 7 rows
+[17:21:39] [RUN_ID:a0c63d1a] ĐÃ TẠO VÀ LOAD BẢNG mart_daily_summary
+[17:21:40] [RUN_ID:a0c63d1a] Loaded data_mart.mart_daily_sales: 1542 rows
+[17:21:41] [RUN_ID:a0c63d1a] Loaded data_mart.mart_product_summary: 234 rows
+[17:21:42] [RUN_ID:a0c63d1a] Loaded data_mart.mart_top10_daily_change: 9 rows
+[17:21:43] [RUN_ID:a0c63d1a] Loaded data_mart.mart_today_top_price: 20 rows
+[17:21:43] [RUN_ID:a0c63d1a] ĐÃ TẠO BẢNG THỨ 5: mart_today_top_price – TOP 20 SẢN PHẨM ĐẮT NHẤT HÔM NAY
+[17:21:44] [RUN_ID:a0c63d1a] Loaded data_mart.dim_date: 7670 rows
+[17:21:45] [RUN_ID:a0c63d1a] Loaded data_mart.dim_product: 234 rows
+[17:21:45] [RUN_ID:a0c63d1a] Tiến trình KẾT THÚC THÀNH CÔNG. Bản ghi: 0
+[17:21:45] [RUN_ID:N/A] HOÀN TẤT 100%! Đã tạo đủ 2 file CSV + 7 bảng trong data_mart
+[17:21:45] [RUN_ID:N/A] 7 bảng trong data_mart: mart_daily_summary, mart_daily_sales, mart_product_summary, mart_top10_daily_change, mart_today_top_price, dim_date, dim_product
